@@ -1,37 +1,80 @@
 ---
-title: "Hello R Markdown"
-author: "Frida Gomam"
-date: 2020-12-01T21:13:14-05:00
+title: "So You Want a Pastel Colour Palette"
+author: "Elena Sheard"
+date: 2021-14-07T21:13:14-05:00
 categories: ["R"]
-tags: ["R Markdown", "plot", "regression"]
+tags: ["R Markdown", "plot", "palette"]
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(collapse = TRUE)
 ```
+# Customising palettes in R
 
-# R Markdown
+There are already a lot of great resources on how to choose pre-existing colour palettes in ggplot. I really like [this one](http://www.sthda.com/english/wiki/ggplot2-colors-how-to-change-colors-automatically-and-manually) and [here](https://github.com/EmilHvitfeldt/r-color-palettes) has a list of literally all the palettes available in ggplot organised by package (include a Studio Ghibli one in the works).
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+Here I'll illustrate some ways of using pre-existing pastel palettes, and some tools to customise your own, using R's pre-existing data.
 
-You can embed an R code chunk like this:
+#Pre-existing pastel palettes
+
+If we make a basic box plot in R using the iris data, we end up with a plot like this:
 
 ```{r cars}
-summary(cars)
-fit <- lm(dist ~ speed, data = cars)
-fit
+library(ggplot2)
+ggplot(iris,aes(x=Species,y=Petal.Length))+
+  geom_boxplot()
 ```
 
-# Including Plots
+We might want to distinguish between the the three species a bit more easily, so we can add in colour using fill.
 
-You can also embed plots. See Figure \@ref(fig:pie) for example:
-
-```{r pie, fig.cap='A fancy pie chart.', tidy=FALSE}
-par(mar = c(0, 1, 0, 1))
-pie(
-  c(280, 60, 20),
-  c('Sky', 'Sunny side of pyramid', 'Shady side of pyramid'),
-  col = c('#0292D8', '#F7EA39', '#C4B632'),
-  init.angle = -50, border = NA
-)
+```{r}
+ggplot(iris,aes(x=Species,y=Petal.Length,fill=Species))+
+  geom_boxplot()
 ```
+This is the default colour scheme that R uses, and it's fine but it's not *pretty*. So, we can use one of the pastel palettes from Color Brewer, which you can install using `install.packages("RColorBrewer")`.
+
+```{r}
+ggplot(iris,aes(x=Species,y=Petal.Length,fill=Species))+
+  geom_boxplot()+
+  scale_fill_brewer(palette="Pastel2")
+```
+Much nicer! We could also use the first pastel option 'Pastel1' which has the same default colours, but in less aggressive shades. 
+
+```{r}
+ggplot(iris,aes(x=Species,y=Petal.Length,fill=Species))+
+  geom_boxplot()+
+  scale_fill_brewer(palette="Pastel1")
+```
+
+If you want to use these colours in a scatterplot rather than a box plot, you need to use the function `scale_color_brewer(palette="")` and color rather than fill:
+
+```{r}
+ggplot(iris,aes(x=Petal.Length,y=Petal.Length,color=Species))+
+  geom_point()+
+  scale_color_brewer(palette="Pastel2")
+```
+
+#Manual Palette
+I selected three pastel colours using [this tool](https://www.rapidtables.com/web/color/RGB_Color.html) and entered them into the plot using `scale_fill_manual()`. Remember to include the #
+
+```{r}
+ggplot(iris,aes(x=Species,y=Petal.Length,fill=Species))+
+  geom_boxplot()+
+  scale_fill_manual(values=c("#CCE5FF","#E5CCFF","#FFCCE5"))
+```
+
+```{r}
+ggplot(iris,aes(x=Petal.Length,y=Petal.Length,color=Species))+
+  geom_point()+
+  scale_color_manual(values=c("#FFF0F5","#E6E6FA","#F0FFFF"))
+```
+As you can tell from the last two plots, different colours work better than others in different plots, and it's up to you to figure out the best choice for your purposes. 
+
+You can also save multiple colours into a palette, and then use that palette in the plot. 
+```{r}
+pastel_me <- c("#FFCCCC","#FFFFCC","#CCFFCC")
+ggplot(iris,aes(x=Species,y=Petal.Length,fill=Species))+
+  geom_boxplot()+
+  scale_fill_manual(values=pastel_me)
+```
+
