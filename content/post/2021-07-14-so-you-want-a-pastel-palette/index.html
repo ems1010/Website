@@ -1,9 +1,13 @@
 ---
-title: "So You Want a Pastel Colour Palette"
-author: "Elena Sheard"
-date: 2021-14-07T21:13:14-05:00
-categories: ["R"]
-tags: ["R Markdown", "plot", "palette"]
+title: So You Want a Pastel Palette
+author: Elena Sheard
+date: '2021-07-14'
+slug: so-you-want-a-pastel-palette
+categories:
+  - R
+tags:
+  - palette
+  - colour
 ---
 
 
@@ -12,11 +16,13 @@ tags: ["R Markdown", "plot", "palette"]
 <h1>Customising palettes in R</h1>
 <p>There are already a lot of great resources on how to choose pre-existing colour palettes in ggplot. I really like <a href="http://www.sthda.com/english/wiki/ggplot2-colors-how-to-change-colors-automatically-and-manually">this one</a> and <a href="https://github.com/EmilHvitfeldt/r-color-palettes">here</a> has a list of literally all the palettes available in ggplot organised by package (include a Studio Ghibli one in the works).</p>
 <p>Here I’ll illustrate some ways of using pre-existing pastel palettes, and some tools to customise your own, using R’s pre-existing data.</p>
-<p>#Pre-existing pastel palettes</p>
+</div>
+<div id="pre-existing-pastel-palettes" class="section level1">
+<h1>Pre-existing pastel palettes</h1>
 <p>If we make a basic box plot in R using the iris data, we end up with a plot like this:</p>
-<pre class="r"><code>library(ggplot2)
-## Warning: package &#39;ggplot2&#39; was built under R version 4.0.5
-ggplot(iris,aes(x=Species,y=Petal.Length))+
+<pre class="r"><code>library(ggplot2)</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.0.5</code></pre>
+<pre class="r"><code>ggplot(iris,aes(x=Species,y=Petal.Length))+
   geom_boxplot()</code></pre>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/cars-1.png" width="672" /></p>
 <p>We might want to distinguish between the the three species a bit more easily, so we can add in colour using fill.</p>
@@ -38,8 +44,10 @@ Much nicer! We could also use the first pastel option ‘Pastel1’ which has th
   geom_point()+
   scale_color_brewer(palette=&quot;Pastel2&quot;)</code></pre>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<p>#Manual Palette
-I selected three pastel colours using <a href="https://www.rapidtables.com/web/color/RGB_Color.html">this tool</a> and entered them into the plot using <code>scale_fill_manual()</code>. Remember to include the #</p>
+</div>
+<div id="manual-palette" class="section level1">
+<h1>Manual Palette</h1>
+<p>I selected three pastel colours using <a href="https://www.rapidtables.com/web/color/RGB_Color.html">this tool</a> and entered them into the plot using <code>scale_fill_manual()</code>. Remember to include the #</p>
 <pre class="r"><code>ggplot(iris,aes(x=Species,y=Petal.Length,fill=Species))+
   geom_boxplot()+
   scale_fill_manual(values=c(&quot;#CCE5FF&quot;,&quot;#E5CCFF&quot;,&quot;#FFCCE5&quot;))</code></pre>

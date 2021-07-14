@@ -1,21 +1,22 @@
 ---
-title: "So You Want a Pastel Colour Palette"
-author: "Elena Sheard"
-date: 2021-14-07T21:13:14-05:00
-categories: ["R"]
-tags: ["R Markdown", "plot", "palette"]
+title: So You Want a Pastel Palette
+author: Elena Sheard
+date: '2021-07-14'
+slug: so-you-want-a-pastel-palette
+categories:
+  - R
+tags:
+  - palette
+  - colour
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(collapse = TRUE)
-```
 # Customising palettes in R
 
 There are already a lot of great resources on how to choose pre-existing colour palettes in ggplot. I really like [this one](http://www.sthda.com/english/wiki/ggplot2-colors-how-to-change-colors-automatically-and-manually) and [here](https://github.com/EmilHvitfeldt/r-color-palettes) has a list of literally all the palettes available in ggplot organised by package (include a Studio Ghibli one in the works).
 
 Here I'll illustrate some ways of using pre-existing pastel palettes, and some tools to customise your own, using R's pre-existing data.
 
-#Pre-existing pastel palettes
+# Pre-existing pastel palettes  
 
 If we make a basic box plot in R using the iris data, we end up with a plot like this:
 
@@ -54,7 +55,7 @@ ggplot(iris,aes(x=Petal.Length,y=Petal.Length,color=Species))+
   scale_color_brewer(palette="Pastel2")
 ```
 
-#Manual Palette
+# Manual Palette  
 I selected three pastel colours using [this tool](https://www.rapidtables.com/web/color/RGB_Color.html) and entered them into the plot using `scale_fill_manual()`. Remember to include the #
 
 ```{r}
@@ -77,4 +78,3 @@ ggplot(iris,aes(x=Species,y=Petal.Length,fill=Species))+
   geom_boxplot()+
   scale_fill_manual(values=pastel_me)
 ```
-
