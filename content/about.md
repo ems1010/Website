@@ -1,6 +1,6 @@
 ---
 title: "About"
-date: '2021-07-14T21:48:51-07:00'
+date: '2016-05-05T21:48:51-07:00'
 ---
 <p style="text-align:center;"><img src="/./about_files/Untitled design.png" alt="" width="40%" height="40%"> </p>
 
