@@ -1,0 +1,43 @@
+---
+title: "CV"
+author: "Elena"
+date: "14/07/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Publications  
+
+* Sheard, Elena. (2019). “Variation, Language Ideologies and Stereotypes: Orientations towards like and youse in Western and Northern Sydney. *Australian Journal of Linguistics* 39.4. 485-510 <https://doi.org/10.1080/07268602.2019.1641066>
+
+*Received the Rodney Huddleston Award for the best journal article published in the Australian Journal of Linguistics in 2019.*  
+
+## Conference presentations
+
+* **2021** “Lifespan change and social mobility: Vowels in Australian English”. *Sociolinguistics Symposium in Hong Kong 2021* (June 7-10), online.  
+* **2020a** 	“Measuring ethnic orientation across corpora and communities” (w. Catherine Travis). *Australian Linguistics Society annual conference* (December 14-15), online.  
+
+* **2020b** 	“Situating speakers within community change(s): Relative movement across vowels”. *Australian Linguistics Society annual conference* (December 14-15), online.  
+
+* **2020c** 	“Social Variation in the English of Chinese-Australians” (w. Catherine Travis, James Grama, Gan Qiao and Esther Lee). *Forum on Englishes in Australia* (December 9), online.  
+
+* **2019a** 	“Vowel change over the lifespan in Australian English: Sydney speaks forty years on” (w. Catherine Travis and James Grama). *Language Variation and Change – Australia 4, Australian Linguistics Society pre-conference workshop* (December 10), Macquarie University.
+
+* **2019b** 	“Using ethnic orientation to circumscribe the Chinese-Australian speech community in Sydney” (w. Catherine Travis and James Grama). *Forum on Englishes in Australia* (July 26), La Trobe University.  
+
+* **2018**    "Who’s likin’ me: three variables in Sydney English" (w. Sarah Crafter) at the *Centre of Excellence for the Dynamics of Language* at *The Australian National University*, as part of a Summer Research Scholarship with the Sydney Speaks project. (January 18)  
+
+* **2017**	“’You just think of annoying girls that don't shut up’ Perceptions and ideologies of like and youse in Western and Northern Sydney”. *Australian Linguistics Society annual conference* (December 4-7), University of Sydney.     
+
+## Online contributions  
+**Silly Linguistics Magazine**  
+
+* Revitalization of Welsh – An Overview (Volume 16)  
+* Mobilian Jargon: A North American Pidgin (Volume 14)  
+* Standard Italian and Neapolitan (Volume 13)   
+* Whistled Languages (Volume 12)   
+* Anti-Languages (Volume 11)  
+

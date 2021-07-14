@@ -19,9 +19,11 @@ menu:
     - name: GitHub
       url: https://github.com/rstudio/blogdown
     - name: Twitter
-      url: https://twitter.com/rstudio
+      url: https://twitter.com/sociolinguo
     - name: CV
       url: /CV/
+    - name: Tumblr
+      url: https://sociolinguo.tumblr.com
 params:
   MathJaxCDN: //cdnjs.cloudflare.com/ajax/libs
   MathJaxVersion: 2.7.5
