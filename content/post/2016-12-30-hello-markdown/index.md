@@ -1,24 +1,11 @@
 ---
 date: "2021-07-10T21:49:57-07:00"
-title: A Plain Markdown Post
+title: Welcome to the Blog
 ---
+Welcome! I'm Elena and I'm currently a PhD student in linguistics at the Australian National University. 
 
-This is a post written in plain Markdown (`*.md`) instead of R Markdown (`*.Rmd`). The major differences are:
+I do not have a background in coding, programming or stats, so most of what I know I've learnt myself, or from other people's code, with substantial help from my partner when I got stuck. My main motivation for starting this blog was that I will semi-regularly learn how to do something cool or useful in R, not have to use it for a while, and then have to trawl through scripts to find it again, or start from scratch in Google. 
 
-1. You cannot run any R code in a plain Markdown document, whereas in an R Markdown document, you can embed R code chunks (```` ```{r} ````);
-2. A plain Markdown post is rendered through [Blackfriday](https://gohugo.io/overview/configuration/), and an R Markdown document is compiled by [**rmarkdown**](http://rmarkdown.rstudio.com) and [Pandoc](http://pandoc.org).
+I've also learnt a lot from other people's personal blogs in the past couple of years, particularly for linguistics stuff, and if my knowledge can be of use to other people I think that's reason enough to make it public. R is the only thing that has actually reduced me to tears during my PhD, and maybe the lessons I've learnt will help you avoid some of the breakdowns I've had.
 
-There are many differences in syntax between Blackfriday's Markdown and Pandoc's Markdown. For example, you can write a task list with Blackfriday but not with Pandoc:
-
-- [x] Write an R package.
-- [ ] Write a book.
-- [ ] ...
-- [ ] Profit!
-
-Similarly, Blackfriday does not support LaTeX math and Pandoc does. I have added the MathJax support to this theme ([hugo-lithium](https://github.com/yihui/hugo-lithium)) but there is a caveat for plain Markdown posts: you have to include math expressions in a pair of backticks (inline: `` `$ $` ``; display style: `` `$$ $$` ``), e.g., `$S_n = \sum_{i=1}^n X_i$`.^[This is because we have to protect the math expressions from being interpreted as Markdown. You may not need the backticks if your math expression does not contain any special Markdown syntax such as underscores or asterisks, but it is always a safer choice to use backticks. When you happen to have a pair of literal dollar signs inside the same element, you can escape one dollar sign, e.g., `\$50 and $100` renders "\$50 and $100".] For R Markdown posts, you do not need the backticks, because Pandoc can identify and process math expressions.
-
-When creating a new post, you have to decide whether the post format is Markdown or R Markdown, and this can be done via the `ext` argument of the function `blogdown::new_post()`, e.g.
-
-```r
-blogdown::new_post("Post Title", ext = '.Rmd')
-```
+So aside from myself, the people I think will benefit most from most of the posts I plan to make are beginner to intermediate users of R for linguistics, particularly linguistics visualisations. If I'm honest, there's already HEAPS of R resources out there, so a lot of my posts will be me sharing the resources that I found most helpful. 
