@@ -1,0 +1,69 @@
+---
+title: So you want to make a density plot (of vowels)
+author: Elena Sheard
+date: '2021-07-21'
+slug: so-you-want-to-make-a-density-plot
+categories:
+  - R
+tags:
+  - colour
+  - plot
+  - visualisation
+  - density plot
+---
+
+
+
+<p>The aim of this post is to give a very basic framework for making vowel density charts. I recently learnt how to make them, and I think they’re a really neat way of showcasing vowel data, particularly their spread in the vowel space.</p>
+<p>Let’s load in some word list data that I recorded in Praat and force-aligned in <a href="http://darla.dartmouth.edu/">DARLA</a>.The most important thing to have in your data frame for this kind of plot is both F1 and F2 measurements, ideally normalised. I normalised this data using the Lobanov method on the <a href="http://lingtools.uoregon.edu/norm/norm1_help.php">NORM website</a>. We’ll be using ggplot, so I’ve also loaded Tidyverse.</p>
+<pre class="r"><code>library(&quot;tidyverse&quot;)</code></pre>
+<pre><code>## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --</code></pre>
+<pre><code>## v ggplot2 3.3.4     v purrr   0.3.4
+## v tibble  3.1.1     v dplyr   1.0.6
+## v tidyr   1.1.3     v stringr 1.4.0
+## v readr   1.4.0     v forcats 0.5.1</code></pre>
+<pre><code>## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>vowels &lt;- read.csv(&quot;C:/Users/Aussuie/Dropbox/ANU/Website/Website/Data_normalised.csv&quot;)
+head(vowels)</code></pre>
+<pre><code>##   Speaker Vowel Context F150_lob F250_lob F180_lob F280_lob
+## 1 ES_2021    IY    HEED   -0.604    1.792   -0.739    1.759
+## 2 ES_2021    IY    HEAT   -1.262    2.170   -1.355    0.973
+## 3 ES_2021    IY    HEEL   -0.792    1.310   -0.498   -0.143
+## 4 ES_2021    IY    BEAN   -1.084    2.099   -1.156    1.891
+## 5 ES_2021    IY      HE   -1.062    2.096   -1.400    1.944
+## 6 ES_2021    EY    PAID   -0.389    1.506   -0.838    1.561</code></pre>
+<p>This is all the vowels in together. The basic framework of a vowel density plot is F2 along the horizontal axis and F1 along the vertical axis (as per a standard vowel chart). Don’t forget to reverse the scale of the x and y axes as well. Then, <code>geom_density_2d()</code> adds in the contours of the plot.</p>
+<pre class="r"><code>ggplot(vowels, aes(x=F250_lob, y=F150_lob)) +
+  geom_density_2d()+
+  scale_y_reverse()+
+  scale_x_reverse()</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Here I’ve taken just the short front monophthongs “IH” (KIT), “EH” (DRESS) and “AE” (TRAP) and differentiated each vowel by colour.</p>
+<pre class="r"><code>sfv &lt;- vowels %&gt;%
+  filter(Vowel %in% c(&quot;IH&quot;,&quot;EH&quot;,&quot;AE&quot;))
+
+ggplot(sfv, aes(x=F250_lob, y=F150_lob)) +
+  geom_density_2d(aes(color=Vowel))+
+  scale_y_reverse()+
+  scale_x_reverse()</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+Here’s a look at most of the monophthongs “IH” (KIT), “EH” (DRESS), “AE” (TRAP), “ER” (NURSE), “UW” (GOOSE), “UH” (HOOD) “AO” (THOUGHT/FORCE), “AA” (LOT/START/BATH), “AH” (STRUT)</p>
+<pre class="r"><code>monop &lt;- vowels %&gt;%
+  filter(Vowel %in% c(&quot;IH&quot;,&quot;EH&quot;,&quot;AH&quot;,&quot;UH&quot;,&quot;AE&quot;,&quot;AA&quot;,&quot;ER&quot;,&quot;AO&quot;,&quot;UW&quot;))
+
+ggplot(monop, aes(x=F250_lob, y=F150_lob)) +
+  geom_density_2d(aes(color=Vowel))+
+  scale_y_reverse()+
+  scale_x_reverse()</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>This is pretty rough and ready, and if I’m honest I’m not sure why the number of lines decrease for the short front vowels in this graph relative to the previous one. I suspect it has something to do with the number of data points and the relative distance between them for different vowels.</p>
+<p>But, something neat you can see is that my vowels system doesn’t quite align with the dictionary used by the DARLA forced alignment: the AA covers both my ‘LOT’ and ‘BATH/START’ vowels, which are distinct in my system but merged in a number of North American varieties.</p>
+<p>Now I only have data from myself here, but if you have multiple speakers, or multiple speakers of different genders or from different communities or class groups, you can also break up the visualisation according to the factor levels with <code>facet_wrap(~variable)</code> or change the colours.I’ve faceted by vowel in the chart below to illustrated what the code does, but I don’t claim it as a good or helpful visualisation.</p>
+<pre class="r"><code>ggplot(monop, aes(x=F250_lob, y=F150_lob)) +
+  geom_density_2d()+
+  scale_y_reverse()+
+  scale_x_reverse()+
+  facet_wrap(~Vowel)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
