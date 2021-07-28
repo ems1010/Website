@@ -34,11 +34,12 @@ head(vowels)</code></pre>
 ## 4 ES_2021    IY    BEAN   -1.084    2.099   -1.156    1.891
 ## 5 ES_2021    IY      HE   -1.062    2.096   -1.400    1.944
 ## 6 ES_2021    EY    PAID   -0.389    1.506   -0.838    1.561</code></pre>
-<p>This is all the vowels in together. The basic framework of a vowel density plot is F2 along the horizontal axis and F1 along the vertical axis (as per a standard vowel chart). Don’t forget to reverse the scale of the x and y axes as well. Then, <code>geom_density_2d()</code> adds in the contours of the plot.</p>
+<p>This is all the vowels in together. The basic framework of a vowel density plot is F2 along the horizontal axis and F1 along the vertical axis (as per a standard vowel chart). Don’t forget to reverse the scale of the x and y axes as well. Then, <code>geom_density_2d()</code> adds in the contours of the plot. I’ve also manually adjusted the limits of the x and y axes because they were being cut off.</p>
 <pre class="r"><code>ggplot(vowels, aes(x=F250_lob, y=F150_lob)) +
   geom_density_2d()+
   scale_y_reverse()+
-  scale_x_reverse()</code></pre>
+  scale_x_reverse()+
+  expand_limits(x = c(2.5, -2.5),y=c(3.5,-2))</code></pre>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>Here I’ve taken just the short front monophthongs “IH” (KIT), “EH” (DRESS) and “AE” (TRAP) and differentiated each vowel by colour.</p>
 <pre class="r"><code>sfv &lt;- vowels %&gt;%
@@ -47,7 +48,8 @@ head(vowels)</code></pre>
 ggplot(sfv, aes(x=F250_lob, y=F150_lob)) +
   geom_density_2d(aes(color=Vowel))+
   scale_y_reverse()+
-  scale_x_reverse()</code></pre>
+  scale_x_reverse()+
+  expand_limits(x = c(2.25, -1.5),y=c(4.5,-1.5))</code></pre>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-3-1.png" width="672" />
 Here’s a look at most of the monophthongs “IH” (KIT), “EH” (DRESS), “AE” (TRAP), “ER” (NURSE), “UW” (GOOSE), “UH” (HOOD) “AO” (THOUGHT/FORCE), “AA” (LOT/START/BATH), “AH” (STRUT)</p>
 <pre class="r"><code>monop &lt;- vowels %&gt;%
@@ -56,7 +58,8 @@ Here’s a look at most of the monophthongs “IH” (KIT), “EH” (DRESS), �
 ggplot(monop, aes(x=F250_lob, y=F150_lob)) +
   geom_density_2d(aes(color=Vowel))+
   scale_y_reverse()+
-  scale_x_reverse()</code></pre>
+  scale_x_reverse()+
+  expand_limits(x = c(2, -2),y=4)</code></pre>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>This is pretty rough and ready, and if I’m honest I’m not sure why the number of lines decrease for the short front vowels in this graph relative to the previous one. I suspect it has something to do with the number of data points and the relative distance between them for different vowels.</p>
 <p>But, something neat you can see is that my vowels system doesn’t quite align with the dictionary used by the DARLA forced alignment: the AA covers both my ‘LOT’ and ‘BATH/START’ vowels, which are distinct in my system but merged in a number of North American varieties.</p>

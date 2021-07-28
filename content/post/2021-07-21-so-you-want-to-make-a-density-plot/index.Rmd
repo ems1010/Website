@@ -21,13 +21,14 @@ vowels <- read.csv("C:/Users/Aussuie/Dropbox/ANU/Website/Website/Data_normalised
 head(vowels)
 ```
 
-This is all the vowels in together. The basic framework of a vowel density plot is F2 along the horizontal axis and F1 along the vertical axis (as per a standard vowel chart). Don't forget to reverse the scale of the x and y axes as well. Then, `geom_density_2d()` adds in the contours of the plot. 
+This is all the vowels in together. The basic framework of a vowel density plot is F2 along the horizontal axis and F1 along the vertical axis (as per a standard vowel chart). Don't forget to reverse the scale of the x and y axes as well. Then, `geom_density_2d()` adds in the contours of the plot. I've also manually adjusted the limits of the x and y axes because they were being cut off. 
 
 ```{r}
 ggplot(vowels, aes(x=F250_lob, y=F150_lob)) +
   geom_density_2d()+
   scale_y_reverse()+
-  scale_x_reverse()
+  scale_x_reverse()+
+  expand_limits(x = c(2.5, -2.5),y=c(3.5,-2))
 ```
 
 Here I've taken just the short front monophthongs "IH" (KIT), "EH" (DRESS) and "AE" (TRAP) and differentiated each vowel by colour.
@@ -39,7 +40,8 @@ sfv <- vowels %>%
 ggplot(sfv, aes(x=F250_lob, y=F150_lob)) +
   geom_density_2d(aes(color=Vowel))+
   scale_y_reverse()+
-  scale_x_reverse()
+  scale_x_reverse()+
+  expand_limits(x = c(2.25, -1.5),y=c(4.5,-1.5))
 ```
 Here's a look at most of the monophthongs "IH" (KIT), "EH" (DRESS), "AE" (TRAP), "ER" (NURSE), "UW" (GOOSE), "UH" (HOOD) "AO" (THOUGHT/FORCE), "AA" (LOT/START/BATH), "AH" (STRUT)
 
@@ -50,7 +52,8 @@ monop <- vowels %>%
 ggplot(monop, aes(x=F250_lob, y=F150_lob)) +
   geom_density_2d(aes(color=Vowel))+
   scale_y_reverse()+
-  scale_x_reverse()
+  scale_x_reverse()+
+  expand_limits(x = c(2, -2),y=4)
 ```
 
 This is pretty rough and ready, and if I'm honest I'm not sure why the number of lines decrease for the short front vowels in this graph relative to the previous one. I suspect it has something to do with the number of data points and the relative distance between them for different vowels. 
