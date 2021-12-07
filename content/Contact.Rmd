@@ -1,0 +1,10 @@
+---
+title: "Contact"
+author: "Elena"
+date: "08/12/2021"
+output: html_document
+---
+
+You can contact Elena via email at elena.sheard@anu.edu.au
+
+You can also follow her on [Twitter](https://twitter.com/sociolinguo), [Tumblr](https://sociolinguo.tumblr.com) and [Github](https://github.com/ems1010)

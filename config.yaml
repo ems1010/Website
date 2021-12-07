@@ -16,14 +16,10 @@ menu:
   main:
     - name: About Elena
       url: /about/
-    - name: GitHub
-      url: https://github.com/ems1010
-    - name: Twitter
-      url: https://twitter.com/sociolinguo
     - name: CV
       url: /CV/
-    - name: Tumblr
-      url: https://sociolinguo.tumblr.com
+    - name: Contact
+      url: /Contact/
 params:
   MathJaxCDN: //cdnjs.cloudflare.com/ajax/libs
   MathJaxVersion: 2.7.5
