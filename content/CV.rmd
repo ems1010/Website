@@ -18,6 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Conference presentations
 
 * **2021** “Lifespan change and social mobility: Vowels in Australian English”. *Sociolinguistics Symposium in Hong Kong 2021* (June 7-10), online.  
+
 * **2020a** 	“Measuring ethnic orientation across corpora and communities” (w. Catherine Travis). *Australian Linguistics Society annual conference* (December 14-15), online.  
 
 * **2020b** 	“Situating speakers within community change(s): Relative movement across vowels”. *Australian Linguistics Society annual conference* (December 14-15), online.  
@@ -31,6 +32,16 @@ knitr::opts_chunk$set(echo = TRUE)
 * **2018**    "Who’s likin’ me: three variables in Sydney English" (w. Sarah Crafter) at the *Centre of Excellence for the Dynamics of Language* at *The Australian National University*, as part of a Summer Research Scholarship with the Sydney Speaks project. (January 18)  
 
 * **2017**	“’You just think of annoying girls that don't shut up’ Perceptions and ideologies of like and youse in Western and Northern Sydney”. *Australian Linguistics Society annual conference* (December 4-7), University of Sydney.     
+
+## Teaching 
+* **2021** *Language and Society*, Tutor, The Australian National University  
+
+* **2018** *Language and Social Context*, Tutor and guest lecturer, The University of Sydney  
+
+* **2017 - 2018** *Indigenous Tutorial Assistance Scheme (ITAS)*, Tutor, The University of Sydney
+
+## Workshops
+* **2021** *ARC Centre of Excellence for the Dynamics of Language - ANU Linguistics Seminar Series*, [Introduction to Plotting in R](https://youtu.be/81KszuTAw6w)
 
 ## Online contributions  
 **Silly Linguistics Magazine**  
