@@ -16,8 +16,15 @@ knitr::opts_chunk$set(echo = TRUE)
 *Received the Rodney Huddleston Award for the best journal article published in the Australian Journal of Linguistics in 2019.*  
 
 ## Conference presentations
+* **2021a** "Class, gender and ethnic differentiation of pre-nasal TRAP by young Chinese-Australians" (w. Gan Qiao) *Australian Linguistics Society annual conference* (December 6-9), online.
 
-* **2021** “Lifespan change and social mobility: Vowels in Australian English”. *Sociolinguistics Symposium in Hong Kong 2021* (June 7-10), online.  
+* **2021b** ["Quantifying degree and direction of language change(s) over the lifespan across variables"](https://youtu.be/HgGvOiXMkcg) *New Ways of Analyzing Variation 49* (October 19-24),  online.
+
+*Winner of the Association for Laboratory Phonology Best Student Paper Award*
+
+* **2021c** "Examin(ing) social class in Australia" (w. Catherine Travis, Benjamin Purser and Gan Qiao) *Forum on Englishes in Australia* (August 27), online.
+
+* **2021d** “Lifespan change and social mobility: Vowels in Australian English”. *Sociolinguistics Symposium in Hong Kong 2021* (June 7-10), online.  
 
 * **2020a** 	“Measuring ethnic orientation across corpora and communities” (w. Catherine Travis). *Australian Linguistics Society annual conference* (December 14-15), online.  
 
