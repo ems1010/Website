@@ -1,0 +1,508 @@
+---
+title: "An Introduction to ggplot2 (Workshop)"
+author: "Elena"
+date: '2022-05-17'
+slug: an-introduction-to-ggplot2
+categories: R
+tags:
+- visualisation
+- colour
+---
+
+
+
+<p>This is an adaptation of a workshop I ran last year as part of the Centre of Excellence for the Dynamics of Language (ANU) Seminar Series- the main change is that I’ve subbed out the data with the iris data that’s automatically available in R so that it’s more accessible. If you would like a recording of the workshop, which uses vowel data, you can email me at <a href="mailto:elena.sheard@anu.edu.au" class="email">elena.sheard@anu.edu.au</a></p>
+
+<div id="workshop-overview" class="section level3">
+<h3>Workshop Overview</h3>
+<ul>
+<li>Introduction to the ggplot2 package and its main functions</li>
+<li>How to make three plots
+<ul>
+<li>Scatter plot</li>
+<li>Box plot</li>
+<li>Density plot</li>
+</ul></li>
+<li>How to customise these plots
+<ul>
+<li>Colour</li>
+<li>Labels</li>
+<li>Legends</li>
+<li>Themes</li>
+<li>Faceting</li>
+<li>Manual palettes</li>
+</ul></li>
+</ul>
+</div>
+<div id="the-basics" class="section level3">
+<h3>The Basics</h3>
+<ul>
+<li><p>ggplot2 is a R package dedicated to data visualisation</p></li>
+<li><p>Has an underlying grammar that allows you to build graphs by combining independent components</p>
+<ul>
+<li>This allows you to build almost any type of chart</li>
+<li>The same underlying data can be transformed by many different scales or layers (i.e., it is extremely flexible)</li>
+</ul></li>
+<li><p>It is also over a decade old, meaning there are a lot of resources available</p></li>
+<li><p>To use ggplot2, you need to:</p>
+<ul>
+<li>Install and load either the ggplot2 package or the tidyverse package</li>
+<li>Load the data (<code>name_of_object &lt;- read.csv("name_of_spreadsheet.csv")</code>)</li>
+</ul></li>
+<li><p>I have also included code for installing and loading the RColorBrewer package</p></li>
+</ul>
+<pre class="r"><code>install.packages(&quot;tidyverse&quot;) 
+install.packages(&quot;RColorBrewer&quot;) 
+library(RColorBrewer)
+library(tidyverse)</code></pre>
+</div>
+<div id="the-base-layer" class="section level3">
+<h3>The base layer</h3>
+<ul>
+<li>All plots are composed of:
+<ul>
+<li>The <strong>data</strong>: the information you want to visualise</li>
+<li>A <strong>mapping</strong>: a description of how you want the variables in your data to be ‘mapped’ to aesthetic attributes like colour, shapes, or x and y axes</li>
+</ul></li>
+<li>All plots you make in ggplot2 will begin with the <code>ggplot()</code> function
+<ul>
+<li>This builds the first component of your graph (the base layer)<br />
+</li>
+</ul></li>
+<li>You also need to tell ggplot what data you want to visualise
+<ul>
+<li>The name of your dataframe or object, in our case ‘cars’<br />
+</li>
+</ul></li>
+<li>The code below will create an empty base layer</li>
+</ul>
+<pre class="r"><code>ggplot(data=iris)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="mapping" class="section level3">
+<h3>Mapping</h3>
+<ul>
+<li>Mapping depends on what kind of graph you are after, but for <em>most</em> you will want to add <strong>x and/or y axes</strong></li>
+<li>Within <code>ggplot(data=ban)</code>, we need another function <code>aes()</code> within which you give the x and y axes so that:
+<ul>
+<li><code>ggplot(data=*dataframe*, aes(x=*column_a*, y=*column_b*))</code> </li>
+<li>The names you give for ‘x’ and ‘y’ are the <strong>names of the columns in the dataframe you want to plot</strong><br />
+</li>
+</ul></li>
+<li>The code below will create a graph with a labeled x and y axis that is otherwise empty. In the next section, we will turn it into a scatter plot</li>
+</ul>
+<pre class="r"><code>ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length))</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+</p>
+</div>
+<div id="three-basic-plots" class="section level2">
+<h2>Three Basic Plots</h2>
+<div id="basic-scatter-plot" class="section level3">
+<h3>Basic scatter plot</h3>
+<ul>
+<li>We already have the basis for a scatterplot from the previous code as we have <strong>two continuous variables</strong> on the x and y axes</li>
+<li>To turn this into a scatterplot, add <code>+ geom_point()</code> to the previous code
+<ul>
+<li>This tells ggplot2 that we want to build a scatter plot, with the specified x and y axes</li>
+</ul></li>
+<li>When you add a new component to a graph, there must be a <code>+</code> connecting to the previous one</li>
+<li>And voila!</li>
+</ul>
+<pre class="r"><code>ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length))+
+  geom_point()</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="basic-boxplot" class="section level3">
+<h3>Basic boxplot</h3>
+<ul>
+<li>The basic <code>ggplot(data=, aes(x=,y=))</code> stays the same
+<ul>
+<li>Instead of <code>+geom_point()</code> we add <code>+geom_boxplot()</code></li>
+</ul></li>
+<li>Box plots use:
+<ul>
+<li>a <strong>categorical</strong> variable on the <strong>x axis</strong></li>
+<li>a <strong>continuous</strong> variable on the <strong>y axis</strong></li>
+</ul></li>
+</ul>
+<pre class="r"><code>ggplot(data=iris, aes(x=Species,y=Petal.Length))+ 
+  geom_boxplot()</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="basic-density-plot" class="section level3">
+<h3>Basic density plot</h3>
+<ul>
+<li>The basic code is <code>ggplot(data=, aes(x=))</code>
+<ul>
+<li>This time we add <code>+geom_density()</code></li>
+</ul></li>
+<li>Density plots use:
+<ul>
+<li>a <strong>single continuous</strong> variable on the <strong>x-axis</strong></li>
+<li>Y axis tells you the distribution of this variables</li>
+</ul></li>
+</ul>
+<pre class="r"><code>ggplot(data=iris, aes(x=Petal.Length))+
+  geom_density()</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+</div>
+<div id="practice-mini-tasks" class="section level2 tabset">
+<h2>Practice Mini-Tasks</h2>
+<div id="build-a-scatter-plot" class="section level3">
+<h3>1: Build a scatter plot</h3>
+<ul>
+<li>Make your own scatter plot by changing the x and y axes to different continuous variables from the data:
+<ul>
+<li>Petal.Length</li>
+<li>Petal.Width</li>
+<li>Sepal.Length</li>
+<li>Sepal.Width</li>
+</ul></li>
+</ul>
+</div>
+<div id="build-a-box-plot" class="section level3">
+<h3>2: Build a box plot</h3>
+<ul>
+<li>Make your own box plot by changing the y axis to different continuous variables from the dataframe:
+<ul>
+<li>Petal.Length</li>
+<li>Petal.Width</li>
+<li>Sepal.Length</li>
+<li>Sepal.Width</li>
+</ul></li>
+<li>And change the x axis to a different categorical variable from the dataframe (although with this data there is only one option)
+<ul>
+<li>Species</li>
+</ul></li>
+</ul>
+</div>
+<div id="build-a-density-plot" class="section level3">
+<h3>3: Build a density plot</h3>
+<ul>
+<li>Make your own density plot by changing the x axis to a different continuous variable from the dataframe
+<ul>
+<li>Petal.Length</li>
+<li>Petal.Width</li>
+<li>Sepal.Length</li>
+<li>Sepal.Width</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="customising-in-ggplot2" class="section level2 tabset">
+<h2>Customising in ggplot2</h2>
+<div id="colour" class="section level3">
+<h3>Colour</h3>
+<ul>
+<li>Colour is a very easy way to add additional information</li>
+<li>We map colour to variables within the <code>aes()</code> function, after we have put in the x and y axes
+<ul>
+<li><code>ggplot(data=data_frame, aes(x=columm_a,y=column_b,color=column_c))</code></li>
+</ul></li>
+<li>The same principle applies to shape and linetype</li>
+</ul>
+<pre class="r"><code>ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length, color=Species))+
+  geom_point()</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<ul>
+<li>If your graph has shapes with lines (like boxplots and density plots), you can:
+<ul>
+<li>change the line colour with <code>color=column_c</code></li>
+<li>change the colour inside the lines with <code>fill=column_d</code></li>
+</ul></li>
+</ul>
+<pre class="r"><code>ggplot(data=iris, aes(x=Sepal.Length,color=Species))+
+  geom_density()</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=iris, aes(x=Sepal.Length,fill=Species))+
+  geom_density()</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+### Labels and Titles</p>
+<ul>
+<li>The <code>+labs()</code> function lets you change the plot title, caption, x and y axes and the legend labels
+<ul>
+<li><code>labs(title="Plot Title",caption="Plot Caption",x="column_a",y="column_b", color="column_c",fill="column_d")</code></li>
+</ul></li>
+<li>To change the legend labels, you specify the mapping attribute (color or fill), then the column being mapped to that attribute</li>
+</ul>
+<pre class="r"><code>ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length,color=Species))+
+  geom_point()+
+  labs(title=&quot;Sepal Length and Petal Length&quot;,
+      caption=&quot;Data from R&quot;, 
+      x=&quot;Sepal Length&quot;,y=&quot;Petal Length&quot;,
+      color=&quot;Species&quot;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="themes" class="section level3">
+<h3>Themes</h3>
+<ul>
+<li>You can change the background of the chart
+<ul>
+<li>Grey squares is the default</li>
+</ul></li>
+<li>Other options include:
+<ul>
+<li><code>+theme_bw()</code>, <code>+theme_light()</code>, <code>+theme_dark()</code>, <code>+theme_classic()</code></li>
+</ul></li>
+</ul>
+<pre class="r"><code>ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length,color=Species))+
+  geom_point()+
+  labs(title=&quot;Sepal Length and Petal Length&quot;,
+      caption=&quot;Data from R&quot;, 
+      x=&quot;Sepal Length&quot;,y=&quot;Petal Length&quot;,
+      color=&quot;Species&quot;)+
+  theme_bw()</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+<div id="legends" class="section level3">
+<h3>Legends</h3>
+<ul>
+<li>The default legend position is to the right of the plot</li>
+<li>It can be changed using <code>+theme(legend.position="")</code>
+<ul>
+<li>Options are “bottom”, “top”, “left”, or “right”</li>
+</ul></li>
+<li>You can also alter the legend name and labels using:<br />
+</li>
+<li><code>scale_color_discrete(name="",labels=c("",""))</code> and</li>
+<li><code>scale_fill_discrete(name="",labels=c("",""))</code></li>
+<li>You can remove one of the legends if you have more than one with <code>guides(fill="none")</code> or <code>guides(color="none")</code>
+<ul>
+<li>Need to specify the mapping you want to remove</li>
+<li>If you want to remove <em>all</em> legends you can use <code>+ theme(legend.position="none")</code></li>
+</ul></li>
+</ul>
+<pre class="r"><code>ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length,color=Species))+
+  geom_point()+
+  labs(title=&quot;Sepal Length and Petal Length&quot;,
+      caption=&quot;Data from R&quot;, 
+      x=&quot;Sepal Length&quot;,y=&quot;Petal Length&quot;,
+      color=&quot;Species&quot;)+
+  theme_bw()+
+  theme(legend.position=&quot;left&quot;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+</div>
+<div id="mini-tasks-customising-your-chart" class="section level2 tabset">
+<h2>Mini-tasks: Customising your chart</h2>
+<div id="colour-1" class="section level3">
+<h3>1: Colour</h3>
+<ul>
+<li>Customise a scatter plot, box plot and density plot with colour</li>
+<li>Scatter plot
+<ul>
+<li><code>ggplot(data=data_frame,aes(x=column_1,y=column_2,color=column_3))+geom_point()</code></li>
+</ul></li>
+<li>Box plot
+<ul>
+<li><code>ggplot(data=ban,aes(x=age,y=F1_lob,color=gender,fill=community))+ geom_boxplot()</code></li>
+</ul></li>
+<li>Density plot
+<ul>
+<li><code>ggplot(data=ban,aes(x=F1_lob,color=age,fill=community))+geom_density()</code></li>
+</ul></li>
+</ul>
+</div>
+<div id="customising-with-colour" class="section level3">
+<h3>2: Customising with colour</h3>
+<ul>
+<li>Customise a scatter plot, box plot and density plot with colour</li>
+<li>Scatter plot
+<ul>
+<li><code>ggplot(data=data_frame,aes(x=column_1,y=column_2,color=column_3))+geom_point()</code></li>
+</ul></li>
+<li>Box plot
+<ul>
+<li><code>ggplot(data=ban,aes(x=age,y=F1_lob,color=gender,fill=community))+ geom_boxplot()</code></li>
+</ul></li>
+<li>Density plot
+<ul>
+<li><code>ggplot(data=ban,aes(x=F1_lob,color=age,fill=community))+geom_density()</code></li>
+</ul></li>
+</ul>
+</div>
+<div id="labels-and-titles" class="section level3">
+<h3>3: Labels and Titles</h3>
+<ul>
+<li>Give your plot from Task 4 a new title!</li>
+<li>Try and change the labels of the x and y axes too
+<ul>
+<li>Previous plot code +<code>labs(title="Plot Title",caption="Plot Caption",x="column_a",y="column_b", color="column_c",fill="column_d")</code></li>
+</ul></li>
+</ul>
+</div>
+<div id="theme" class="section level3">
+<h3>4: Theme</h3>
+<ul>
+<li>Change the theme for the plot from Task 5
+<ul>
+<li><code>+theme_bw()</code></li>
+<li><code>+theme_light()</code></li>
+<li><code>+theme_dark()</code></li>
+<li><code>+theme_classic()</code></li>
+</ul></li>
+</ul>
+</div>
+<div id="legends-1" class="section level3">
+<h3>5: Legends</h3>
+<ul>
+<li>Change the labels for your legend</li>
+<li>Try and remove one of them if you have two</li>
+</ul>
+</div>
+</div>
+<div id="faceting" class="section level2 tabset">
+<h2>Faceting</h2>
+<div id="facet_wrap" class="section level3">
+<h3>facet_wrap()</h3>
+<ul>
+<li>You can break down your graph further by categorical variables with <code>facet_wrap()</code>, which automatically wraps graphs in a rectangle layout</li>
+<li><code>facet_wrap(~)</code> can take one or two arguments
+<ul>
+<li>for one argument, it goes to the right of the ~ <code>facet_wrap(~column_e)</code></li>
+<li>for two arguments, one goes on either side of the ~ <code>facet_wrap(column_e~column_f)</code></li>
+</ul></li>
+</ul>
+<pre class="r"><code>ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length))+
+  geom_point()+
+  labs(title=&quot;Sepal Length and Petal Length&quot;,
+      caption=&quot;Data from R&quot;, 
+      x=&quot;Sepal Length&quot;,y=&quot;Petal Length&quot;,
+      color=&quot;Species&quot;)+
+  theme_bw()+
+  facet_wrap(~Species)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+<div id="facet_grid" class="section level3">
+<h3>facet_grid()</h3>
+<ul>
+<li><code>facet_grid()</code> can facet into columns or rows, or both
+<ul>
+<li><code>facet_grid(cols=vars(column_e))</code> will facet into columns based on this variable</li>
+<li><code>facet_grid(rows=vars(column_f))</code> will facet into rows based on this variable</li>
+<li><code>facet_grid(cols=vars(column_e), rows=vars(column_f))</code> will facet into rows and columns based on the two variables</li>
+</ul></li>
+</ul>
+<pre class="r"><code>ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length))+
+  geom_point()+
+  labs(title=&quot;Sepal Length and Petal Length&quot;,
+      caption=&quot;Data from R&quot;, 
+      x=&quot;Sepal Length&quot;,y=&quot;Petal Length&quot;,
+      color=&quot;Species&quot;)+
+  theme_bw()+
+  facet_grid(cols=vars(Species))</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
+</div>
+<div id="changing-the-colours" class="section level2 tabset">
+<h2>Changing the colours</h2>
+<ul>
+<li>When you map variables onto colour, R will automatically select colours for you
+<ul>
+<li>But often it’s not cute or doesn’t match the colour scheme of your presentation</li>
+</ul></li>
+<li>ggplot lets us change the colours. You can:
+<ul>
+<li>Manually select each colour within the plot</li>
+<li>Choose a pre-existing palette</li>
+</ul></li>
+</ul>
+<div id="manually-selecting-colours" class="section level3">
+<h3>Manually selecting colours</h3>
+<ul>
+<li>Get a list of the available colour names with <code>colors()</code></li>
+<li>Or you can use the Hex code for the colour</li>
+<li>To change the colours in a plot manually we add <code>scale_color_manual()</code>
+<ul>
+<li>Inside the () we add <code>values=c()</code> with the colour names or hex codes in ""</li>
+<li>When using hex codes, remember to have the # in front of the code</li>
+</ul></li>
+</ul>
+<pre class="r"><code>ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length,color=Species))+
+  geom_point()+
+  scale_color_manual(values=c(&quot;blue2&quot;,&quot;chartreuse2&quot;,&quot;blueviolet&quot;))</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<ul>
+<li>Where you have both fill and colour, the same applies<br />
+</li>
+<li>To change the fill colour manually add:
+<ul>
+<li><code>+scale_fill_manual(values=c())</code></li>
+</ul></li>
+<li>To change the line colour manually add:
+<ul>
+<li><code>+scale_color_manual(values=c())</code></li>
+</ul></li>
+</ul>
+</div>
+<div id="pre-existing-palettes" class="section level3">
+<h3>Pre-existing palettes</h3>
+<ul>
+<li>You don’t need to go through choosing colours manually if you don’t want to<br />
+</li>
+<li>There are a lot of pre-existing palettes that you can add to your graph<br />
+</li>
+<li>Different packages have different palettes, I use RColorBrewer<br />
+</li>
+<li>We replace the ‘manual’ in the previous code with <code>brewer</code>:
+<ul>
+<li><code>scale_color_brewer(palette="")</code><br />
+</li>
+<li><code>scale_fill_brewer(palette="")</code><br />
+</li>
+</ul></li>
+<li>You can find palette names in the link in the script</li>
+</ul>
+<pre class="r"><code>ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length,color=Species))+
+  geom_point()+
+  scale_color_brewer(palette=&quot;RdGy&quot;, 
+          name=&quot;Iris Species&quot;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+</div>
+</div>
+<div id="mini-tasks-make-it-cute-and-bring-it-together" class="section level2">
+<h2>Mini-tasks: Make it cute and bring it together</h2>
+<div id="make-it-cute" class="section level3">
+<h3>1: Make it cute</h3>
+<ul>
+<li>Manually change the colours in a chart by changing the colours manually, or using a pre-existing palette
+_ You can copy and paste a graph from above!</li>
+</ul>
+</div>
+<div id="bring-it-together" class="section level3">
+<h3>2: Bring it together</h3>
+<ul>
+<li>Construct a box plot, density plot or scatter plot (i.e. copy and paste from different tasks)
+<ul>
+<li>Change the theme</li>
+<li>Change the title and labels (axes and legend)</li>
+<li>Change the legend (presence or position)</li>
+<li>Facet it by one or two categorical variables</li>
+<li>Customise the colours manually or with a pre-existing palette</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="troubleshooting" class="section level2">
+<h2>Troubleshooting</h2>
+<ul>
+<li>Remember to have colour and palette names/hex codes in " "</li>
+<li>"" and () have to be closed</li>
+<li>R is case-sensitive and space-sensitive</li>
+<li>there must be a <code>+</code> connecting lines</li>
+<li>Hex codes must have the # before the digits</li>
+</ul>
+</div>
+<div id="useful-resources" class="section level2">
+<h2>Useful Resources</h2>
+<p><a href="https://r-graphics.org/">R Graphics Cookbook</a><br />
+<a href="https://www.r-graph-gallery.com/ggplot2-package.html">R Graph Gallery</a><br />
+<a href="https://ggplot2-book.org/introduction.html">ggplot2: Elegant Graphics for Data Analysis</a></p>
+<div id="color-and-palette-generators" class="section level3">
+<h3>Color and palette generators</h3>
+<p><a href="https://coolors.co/984447-faa6ff-64a6bd-ffba49-1e1e24">Coolers</a>
+<a href="http://colormind.io/">Colormind</a>
+<a href="https://colors.muz.li/">Muzli</a></p>
+</div>
+</div>
