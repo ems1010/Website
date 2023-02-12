@@ -1,0 +1,727 @@
+---
+title: Introduction to dplyr (Workshop)
+author: Elena Sheard
+date: '2023-02-12'
+slug: introduction-to-dplyr-workshop
+categories: R
+tags: data wrangling
+output:
+  blogdown::html_page:
+    toc: true
+---
+
+
+<div id="TOC">
+<ul>
+<li><a href="#workshop-structure" id="toc-workshop-structure">Workshop Structure</a></li>
+<li><a href="#introduction-to-dplyr" id="toc-introduction-to-dplyr">Introduction to dplyr</a>
+<ul>
+<li><a href="#what-is-dplyr" id="toc-what-is-dplyr">What is dplyr?</a></li>
+<li><a href="#why-should-i-learn-it" id="toc-why-should-i-learn-it">Why should I learn it?</a></li>
+<li><a href="#the-operator" id="toc-the-operator">The %&gt;% operator</a></li>
+</ul></li>
+<li><a href="#getting-to-know-your-data" id="toc-getting-to-know-your-data">Getting to know your data</a>
+<ul>
+<li><a href="#loading-the-data" id="toc-loading-the-data">loading the data</a></li>
+<li><a href="#glimpse" id="toc-glimpse">glimpse()</a></li>
+<li><a href="#distinct" id="toc-distinct">distinct()</a></li>
+</ul></li>
+<li><a href="#cleaning-your-data" id="toc-cleaning-your-data">Cleaning your data</a>
+<ul>
+<li><a href="#rename" id="toc-rename">rename()</a></li>
+<li><a href="#arrange" id="toc-arrange">arrange()</a></li>
+</ul></li>
+<li><a href="#subsetting-your-data" id="toc-subsetting-your-data">Subsetting your data</a>
+<ul>
+<li><a href="#select" id="toc-select">select()</a></li>
+<li><a href="#filter" id="toc-filter">filter()</a></li>
+<li><a href="#activity-1" id="toc-activity-1">Activity 1</a></li>
+</ul></li>
+<li><a href="#transforming-your-data" id="toc-transforming-your-data">Transforming your data</a>
+<ul>
+<li><a href="#unite" id="toc-unite">unite()</a></li>
+<li><a href="#separate" id="toc-separate">separate()</a></li>
+<li><a href="#mutate" id="toc-mutate">mutate()</a></li>
+<li><a href="#ifelse" id="toc-ifelse">ifelse()</a></li>
+<li><a href="#case_when" id="toc-case_when">case_when()</a></li>
+<li><a href="#fct_recode" id="toc-fct_recode">fct_recode()</a></li>
+<li><a href="#activity-2" id="toc-activity-2">Activity 2</a></li>
+</ul></li>
+<li><a href="#summary-statistics" id="toc-summary-statistics">Summary Statistics</a>
+<ul>
+<li><a href="#summarise" id="toc-summarise">summarise()</a></li>
+<li><a href="#group_by" id="toc-group_by">group_by()</a></li>
+<li><a href="#useful-functions-for-summaries" id="toc-useful-functions-for-summaries">Useful functions for summaries</a></li>
+<li><a href="#activity-3-summary-statistics" id="toc-activity-3-summary-statistics">Activity 3: Summary statistics</a></li>
+</ul></li>
+<li><a href="#combinging-multiple-data-sets-joining" id="toc-combinging-multiple-data-sets-joining">Combinging multiple data sets: joining</a>
+<ul>
+<li><a href="#left_join" id="toc-left_join">left_join():</a></li>
+<li><a href="#right_join" id="toc-right_join">right_join()</a></li>
+<li><a href="#inner_join" id="toc-inner_join">inner_join()</a></li>
+<li><a href="#full_join" id="toc-full_join">full_join()</a></li>
+<li><a href="#semi_join" id="toc-semi_join">semi_join()</a></li>
+<li><a href="#anti_join" id="toc-anti_join">anti_join()</a></li>
+</ul></li>
+<li><a href="#integrate-with-ggplot" id="toc-integrate-with-ggplot">Integrate with ggplot</a>
+<ul>
+<li><a href="#average-midpoint" id="toc-average-midpoint">Average midpoint</a></li>
+<li><a href="#sepal-length" id="toc-sepal-length">Sepal length</a></li>
+<li><a href="#activity-5" id="toc-activity-5">Activity 5</a></li>
+</ul></li>
+<li><a href="#sources-and-resources" id="toc-sources-and-resources">Sources and resources</a></li>
+</ul>
+</div>
+
+<p>This is an adaptation of a second workshop I ran in 2022 as part of the Centre of Excellence for the Dynamics of Language (ANU) Seminar Series - I’ve subbed out the data I used in the workshop with the iris data again to make this content more accessible. If you would like a recording of the workshop, which uses vowel data, you can email me at <a href="mailto:elena.sheard@anu.edu.au" class="email">elena.sheard@anu.edu.au</a></p>
+<pre class="r"><code>#install tidyverse if you haven&#39;t already
+install.packages(&quot;tidyverse&quot;) 
+
+#load the tidyverse
+library(tidyverse) </code></pre>
+<div id="workshop-structure" class="section level2 tabset">
+<h2>Workshop Structure</h2>
+<ul>
+<li>Introduction to dplyr</li>
+<li>Getting familiar with your data</li>
+<li>Cleaning your data</li>
+<li>Subsetting your data</li>
+<li>Transforming your data</li>
+<li>Summarising your data</li>
+<li>Integrating dplyr and ggplot</li>
+</ul>
+</div>
+<div id="introduction-to-dplyr" class="section level2 tabset">
+<h2>Introduction to dplyr</h2>
+<div id="what-is-dplyr" class="section level3">
+<h3>What is dplyr?</h3>
+<ul>
+<li>A grammar of data manipulation
+<ul>
+<li>provides a consistent set of verbs that help you solve the most common data manipulation challenges</li>
+</ul></li>
+<li>Its functions expect <em>tidy data</em>
+<ul>
+<li>Each variable in its own column</li>
+<li>Each observation in its own row</li>
+</ul>
+<img src="images/tidy_data.png" /></li>
+</ul>
+</div>
+<div id="why-should-i-learn-it" class="section level3">
+<h3>Why should I learn it?</h3>
+<ul>
+<li>Good for manipulating data
+<ul>
+<li>Easier than manual changes and in most instances easier than base R</li>
+<li>Highly transferable skill (general data analysis)</li>
+</ul></li>
+<li>Commonly used by R users = plenty of resources</li>
+<li>Allows you to create a workflow (e.g., create new spreadsheets from old ones without changing the original)</li>
+<li>Integrates with other tidyverse packages (like <em>ggplot</em>)</li>
+</ul>
+</div>
+<div id="the-operator" class="section level3">
+<h3>The %&gt;% operator</h3>
+<ul>
+<li>Dplyr can do multiple things to data in a single piece of code<br />
+</li>
+<li>To do this, we use the <code>%&gt;%</code> operator
+<ul>
+<li>aka the ‘pipe’ operator</li>
+<li>Shortcut is Ctrl/Cmd + Shift + M</li>
+</ul></li>
+<li>The pipe allows you to do multiple manipulations to the same data (like the + in ggplot2)
+<ul>
+<li>Do this, and then do this - order matters!</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="getting-to-know-your-data" class="section level2 tabset">
+<h2>Getting to know your data</h2>
+<div id="loading-the-data" class="section level3">
+<h3>loading the data</h3>
+<ul>
+<li>Run <code>df &lt;- read_csv("my_dataframe_name.csv")</code> to read in your data files (although I will be using the Iris dataset here)</li>
+<li><code>read_csv()</code> is similar to <code>read.csv()</code>
+<ul>
+<li>Faster for large .csv files</li>
+<li>Loads data as a Tibble (data format used by dplyr), read.csv() loads data as a regular data frame</li>
+<li>If you ever need to convert a Tibble back to a conventional dataframe you can use <code>as.data.frame()</code></li>
+</ul></li>
+</ul>
+</div>
+<div id="glimpse" class="section level3">
+<h3>glimpse()</h3>
+<ul>
+<li><code>glimpse()</code> shows you every column in a data frame, the type of column it is in &lt;&gt;, and the values in of the first few rows of each column
+<ul>
+<li><code>&lt;dbl&gt;</code> stands for ‘double’, which is term sometimes used in programming languages for non-integer numbers (when manually changing factors in R you are likely using ‘numeric’ instead e.g., as.numeric(dataframe$column))</li>
+</ul></li>
+<li><code>spec()</code> also does the same thing, but doesn’t include the values of the first few rows</li>
+<li>You can use this to find column names in the activites throughout the workshop</li>
+</ul>
+<pre class="r"><code>iris %&gt;% 
+  glimpse()</code></pre>
+<pre><code>## Rows: 150
+## Columns: 5
+## $ Sepal.Length &lt;dbl&gt; 5.1, 4.9, 4.7, 4.6, 5.0, 5.4, 4.6, 5.0, 4.4, 4.9, 5.4, 4.…
+## $ Sepal.Width  &lt;dbl&gt; 3.5, 3.0, 3.2, 3.1, 3.6, 3.9, 3.4, 3.4, 2.9, 3.1, 3.7, 3.…
+## $ Petal.Length &lt;dbl&gt; 1.4, 1.4, 1.3, 1.5, 1.4, 1.7, 1.4, 1.5, 1.4, 1.5, 1.5, 1.…
+## $ Petal.Width  &lt;dbl&gt; 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1, 0.2, 0.…
+## $ Species      &lt;fct&gt; setosa, setosa, setosa, setosa, setosa, setosa, setosa, s…</code></pre>
+</div>
+<div id="distinct" class="section level3">
+<h3>distinct()</h3>
+<ul>
+<li>Used to find unique elements of a given attribute (i.e., the different levels of a factor or categorical variable)</li>
+<li><code>data %&gt;% distinct(column_a)</code></li>
+</ul>
+<pre class="r"><code>iris %&gt;%
+  distinct(Species)</code></pre>
+<pre><code>##      Species
+## 1     setosa
+## 2 versicolor
+## 3  virginica</code></pre>
+</div>
+</div>
+<div id="cleaning-your-data" class="section level2 tabset">
+<h2>Cleaning your data</h2>
+<div id="rename" class="section level3">
+<h3>rename()</h3>
+<ul>
+<li>Used for renaming columns</li>
+<li>You must specify the new name first</li>
+<li><code>data %&gt;% rename(new_col_name_1 = old_col_name_1)</code></li>
+<li>A useful function if your column names have spaces
+<ul>
+<li>R does not like spaces, and will insert full stops when you load your data</li>
+</ul></li>
+</ul>
+<pre class="r"><code>iris %&gt;%
+  rename(sepal_length = Sepal.Length, 
+         sepal_width = Sepal.Width,
+         petal_length = Petal.Length,
+         petal_width = Petal.Width)</code></pre>
+</div>
+<div id="arrange" class="section level3">
+<h3>arrange()</h3>
+<ul>
+<li>Sorts your data by individual columns</li>
+<li><code>data %&gt;% arrange(column_a)</code></li>
+<li>Default is in ascending/alphabetical order. To arrange in descending order you can:</li>
+<li><code>data %&gt;% arrange(desc(column_a))</code></li>
+</ul>
+<pre class="r"><code>#Sort rows by duration in ascending order
+iris %&gt;%
+  arrange(sepal_length) 
+
+#Sort rows by duration in descending order
+iris %&gt;%
+  arrange(desc(sepal_length)) </code></pre>
+</div>
+</div>
+<div id="subsetting-your-data" class="section level2 tabset">
+<h2>Subsetting your data</h2>
+<div id="select" class="section level3">
+<h3>select()</h3>
+<ul>
+<li>When you want to select specific <em>columns</em> from your data</li>
+<li>There are two approaches:
+<ul>
+<li>Naming the columns you <strong>do</strong> want</li>
+<li>Naming the columns you <strong>don’t</strong> want</li>
+</ul></li>
+<li>To select the columns you <strong>do</strong> want:
+<ul>
+<li><code>data %&gt;% select(column_a, column_b, column_c)</code></li>
+<li>compared to <code>data[,c("column_a", "column_b", "column_c")]</code> in base R</li>
+</ul></li>
+<li>To remove the columns you <strong>don’t</strong> want:
+<ul>
+<li><code>data %&gt;% select(-column_d, -column_e, -column_f)</code></li>
+<li>I do not know how to do this in base R and did not think figuring it out was worth my time</li>
+</ul></li>
+<li>You do <strong>not</strong> need to have the column names in ” ”</li>
+<li>You can also use <code>:</code> to tell R you want to select all the columns between column a and column x
+<ul>
+<li><code>data %&gt;% select(column_a:column_z)</code></li>
+</ul></li>
+<li>If you have a lot of columns with similar names, you can also select them using <code>contains()</code>
+<ul>
+<li><code>data %&gt;% select(contains(match))</code></li>
+</ul></li>
+<li>There are other ways to make selection more specific:
+<ul>
+<li><code>ends_with(match)</code>, <code>starts_with(match)</code>, <code>match(match)</code>, <code>num_range()</code></li>
+</ul></li>
+</ul>
+<pre class="r"><code>#select  specific columns from &#39;iris&#39;  
+iris %&gt;%
+  select(petal_length, petal_width) 
+
+#select all columns from speaker to vowelSpecificContext
+iris %&gt;%
+  select(sepal_length:petal_length)
+
+#select all columns where the name contains &#39;F1&#39;
+iris %&gt;%
+  select(contains(&quot;sepal&quot;))
+
+#select all columns ending with &quot;e&quot;
+iris %&gt;%
+  select(ends_with(&quot;dth&quot;))
+
+#select all columns starting with &quot;a&quot;
+iris %&gt;%
+  select(starts_with(&quot;s&quot;))</code></pre>
+</div>
+<div id="filter" class="section level3">
+<h3>filter()</h3>
+<ul>
+<li>When you want to select specific <em>rows</em> from your data
+<ul>
+<li><code>data %&gt;% filter(column_a == "level_1")</code></li>
+<li>Compared to <code>data[data$column_a == "level_1",]</code> in base R</li>
+</ul></li>
+<li>Use the <code>%in%</code> operator when you want to specify multiple levels of the column
+<ul>
+<li><code>data %&gt;% filter(column_a %in% c("level_1", "level_2", "level_3"))</code></li>
+<li>Compared to <code>data[data$column_a %in% c("level_1", "level_2", "level_3"),]</code> in base R</li>
+</ul></li>
+<li>You can also exlude columns using <code>!=</code> (not equal to)
+<ul>
+<li><code>data %&gt;% filter(column_a != "level_2")</code></li>
+<li><code>data %&gt;% filter(!column_a %in% c("level_2", "level_3"))</code></li>
+</ul></li>
+<li>You can filter by multiple columns and levels!
+<ul>
+<li><code>data %&gt;% filter(column_a == "level_1", column_b == "level_2)</code></li>
+</ul></li>
+<li>If you want to create a separate tibble/dataframe to analyse, remember to assign to a new object
+<ul>
+<li><code>new_df &lt;- data %&gt;% filter(column_a == "level_1", column_b == "level_2")</code></li>
+</ul></li>
+</ul>
+<pre class="r"><code>#select the rows that have &#39;setosa&#39; in the &#39;setosa&#39; column
+iris %&gt;% filter(Species == &quot;setosa&quot;) 
+
+#select the rows that have a sepal length greater than &#39;5&#39; and have &#39;setosa&#39; in the &#39;setosa&#39; column
+iris %&gt;% filter(Species == &quot;setosa&quot; &amp; sepal_length &gt; 5)
+
+#select the rows do not have &#39;setosa&#39; in the &#39;Species&#39; column
+iris %&gt;% filter(Species != &quot;setosa&quot;)
+
+#select the rows do not have &#39;setosa&#39; or &#39;versicolor&#39; in the &#39;Species&#39; column
+iris %&gt;% filter(!Species %in% c(&quot;setosa&quot;, &quot;versicolor&quot;))</code></pre>
+</div>
+<div id="activity-1" class="section level3">
+<h3>Activity 1</h3>
+<ul>
+<li>Rename three columns in the data frame (use <code>glimpse()</code> to choose)
+<ul>
+<li><code>iris %&gt;% rename(=, =, =)</code></li>
+</ul></li>
+<li>Select the first 3 columns of the data frame
+<ul>
+<li><code>iris_3 &lt;- iris %&gt;%  select()</code></li>
+</ul></li>
+<li>Select all columns containing the letter ‘a’
+<ul>
+<li><code>iris_a &lt;- iris %&gt;% select(contains())</code></li>
+</ul></li>
+<li>Select all columns except the column ‘Species’
+<ul>
+<li><code>iris_noSp &lt;- iris %&gt;% select()</code></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="transforming-your-data" class="section level2 tabset">
+<h2>Transforming your data</h2>
+<div id="unite" class="section level3">
+<h3>unite()</h3>
+<ul>
+<li>This will combine two columns into a single column</li>
+<li>Will unite based on the specified order, not their order in dataframe</li>
+</ul>
+<pre class="r"><code>#create new column and keep the originals 
+iris %&gt;%
+  unite(species_petal_length, c(&quot;Species&quot;, &quot;petal_length&quot;), remove = FALSE) 
+
+#create new column and remove the originals 
+iris &lt;- iris %&gt;%
+  unite(species_petal_length, c(&quot;Species&quot;, &quot;petal_length&quot;)) </code></pre>
+</div>
+<div id="separate" class="section level3">
+<h3>separate()</h3>
+<ul>
+<li>Turns a single character column into multiple columns</li>
+<li>Default is to split column in question based on any non-alphanumeric value (e.g., a space, hyphen, comma), but this can be specified with <code>sep = ''</code></li>
+</ul>
+<pre class="r"><code>#create new column and remove the originals 
+iris &lt;- iris %&gt;%
+  separate(species_petal_length, c(&quot;Species&quot;, &quot;petal_length&quot;), 
+           sep = &quot;_&quot;) 
+
+#create new column and keep the originals
+iris %&gt;%
+  separate(species_petal_length, c(&quot;Species&quot;, &quot;petal_length&quot;), remove = FALSE)  </code></pre>
+</div>
+<div id="mutate" class="section level3">
+<h3>mutate()</h3>
+<ul>
+<li>Used to create new columns, often based on other columns already in the data
+<ul>
+<li><code>data %&gt;% mutate(new_column = condition/value/expression)</code></li>
+</ul></li>
+<li>Can also be used to change existing columns without creating a new one
+<ul>
+<li><code>data %&gt;% mutate(existing_column = condition/value/expression)</code></li>
+</ul></li>
+</ul>
+<pre class="r"><code>#create a new column that is the product of F2-F1
+iris &lt;- iris %&gt;%
+  mutate(length_minus_width = sepal_length - sepal_width)
+
+#Modify an existing column that is the log of F1_lob
+iris %&gt;%
+  mutate(petal_width = log10(petal_width))</code></pre>
+</div>
+<div id="ifelse" class="section level3">
+<h3>ifelse()</h3>
+<ul>
+<li>Commonly used within the mutate() function</li>
+<li>Lets you create an if-else statement without writing multiple lines of code</li>
+<li>Useful if you only want to alter some levels of a factor, or the value in the column is conditional</li>
+<li><code>mutate(new_column = ifelse(condition, "value_1","otherwise_value_2"))</code></li>
+</ul>
+<pre class="r"><code># Create a new column called &#39;short_petal&#39;
+# If the value in the &#39;petal_length&#39; column is greater than 3, put &quot;long&quot; 
+# Otherwise put &quot;short&quot;
+
+iris &lt;- iris %&gt;%
+  mutate(short_petal = ifelse(petal_length &gt; 3, &quot;long&quot;, &quot;short&quot;)) 
+
+# create a new column called &#39;width&#39;
+# If the value in the &#39;petal_width&#39; column is less than 0.5 then put &quot;thin&quot; 
+# Otherwise put the same values as in the &#39;Species&#39; column
+
+iris %&gt;%
+  mutate(width = ifelse(petal_width &lt; 0.5, &quot;thin&quot;, Species)) </code></pre>
+</div>
+<div id="case_when" class="section level3">
+<h3>case_when()</h3>
+<ul>
+<li>An alternative to if_else if you want to change many or all levels of a factor that saves on multiple lines of code</li>
+</ul>
+<pre class="r"><code>#Create a column called &quot;petals&quot; that classifies rows with a petal length 
+# greater than 3 as &quot;long&quot;, between 3 and 1 as &quot;medium&quot; 
+# and less than or equal to 1 as &quot;short&quot;
+
+iris &lt;- iris %&gt;%
+  mutate(petals = case_when(petal_length &gt; 3 ~ &quot;long&quot;, 
+                            petal_length &lt; 3 &amp; petal_length &gt; 1 ~ &quot;medium&quot;,
+                            petal_length &lt;= 1 ~ &quot;short&quot;)) </code></pre>
+</div>
+<div id="fct_recode" class="section level3">
+<h3>fct_recode()</h3>
+<ul>
+<li>Used to recode data types (good practice is to recode columns when loading data)
+<ul>
+<li>Main data types are integer, double (other numbers), character, factor</li>
+</ul></li>
+<li>You may need to convert some columns to factors from characters, or vice versa</li>
+</ul>
+<pre class="r"><code># Convert some columns to factors 
+  # Across() instructs R to do the manipulation across multiple columns
+# Recode species to be capitalised
+iris %&gt;%
+  mutate(across(c(Species), factor)) %&gt;% 
+  mutate(Species_recode = fct_recode(Species, &quot;Setosa&quot; = &quot;setosa&quot;,
+                               &quot;Versicolor&quot; = &quot;versicolor&quot;,
+                               &quot;Virginica&quot; = &quot;virginica&quot;)) %&gt;% 
+  select(Species,Species_recode)</code></pre>
+</div>
+<div id="activity-2" class="section level3">
+<h3>Activity 2</h3>
+<ul>
+<li>Create a new column that combines the species and sepal length columns, and keeps the original columns
+<ul>
+<li><code>iris &lt;- iris %&gt;% unite(new_column,c("column_a","column_b"),remove=)</code></li>
+</ul></li>
+<li>Create a new column that contains the product of speal length multiplied by petal length (use * to indicate multiplication)
+<ul>
+<li><code>iris &lt;- iris %&gt;% mutate(new_column = expression)</code></li>
+</ul></li>
+<li>Create a new column where, if the sepal length is above 2, it is ‘short’, and it is otherwise ‘long’
+<ul>
+<li><code>iris &lt;- iris %&gt;% mutate(new_column = ifelse(condition,"value_1","value_2"))</code></li>
+</ul></li>
+<li>Create a new column where, if the species is seposa it is changed to ‘Seposa’, and it is otherwise ‘not seposa’
+<ul>
+<li><code>iris &lt;- iris %&gt;% mutate(new_column = ifelse(condition,"value_1","value_2"))</code></li>
+</ul></li>
+<li>Create a new column where, if Species is seposa it is changed to ‘Seposa’, but otherwise is the same as the Species column
+<ul>
+<li><code>iris &lt;- iris %&gt;% mutate(new_column = ifelse(condition,"value_1",original_column))</code></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="summary-statistics" class="section level2 tabset">
+<h2>Summary Statistics</h2>
+<div id="summarise" class="section level3">
+<h3>summarise()</h3>
+<ul>
+<li><code>summarize()</code> or <code>summarise()</code> operators are useful for creating summary statistics on a dataset (e.g., frequency counts, average values)</li>
+<li>Used in combination with other functions (e.g., functions that calculate averages)</li>
+<li>If there is no grouping are performed, the result is a single value</li>
+<li><code>data %&gt;% summarize(column_a = mean(column_a))</code> will calculate the average value in column a for the whole dataframe</li>
+</ul>
+<pre class="r"><code>#calculates average sepal length for the whole dataframe
+iris %&gt;% 
+  summarise(mean(sepal_length)) 
+
+#calculate average, median, maximum and minimum sepal length 
+#for the whole dataframe again
+iris %&gt;% 
+  summarise(mean(sepal_length),
+           median(sepal_length),
+            max(sepal_length),
+            min(sepal_length))
+
+#You can also create new columns names 
+iris %&gt;% 
+  summarise(Average = mean(sepal_length),
+            Median = median(sepal_length),
+            Maximum = max(sepal_length),
+            Minimum = min(sepal_length))</code></pre>
+<ul>
+<li>If you want to calculate this value <em>across different groups</em>, you can combine <code>summarise()</code> with <code>group_by()</code></li>
+</ul>
+</div>
+<div id="group_by" class="section level3">
+<h3>group_by()</h3>
+<ul>
+<li>Usually used in combination with other functions such as summarise()</li>
+<li>Groups your data by the levels/categories in the columns you select
+<ul>
+<li><code>data %&gt;% group_by(column_a, column_b) %&gt;% summarize(column_y = mean(column_z))</code></li>
+</ul></li>
+</ul>
+<pre class="r"><code># Groups the data by gender
+# Calculates the mean and median F1 value for each group
+iris %&gt;% 
+  group_by(Species)%&gt;% 
+  summarise(Average_sepal_length = mean(sepal_length),
+            Median_sepal_length = median(sepal_length))</code></pre>
+</div>
+<div id="useful-functions-for-summaries" class="section level3">
+<h3>Useful functions for summaries</h3>
+<ul>
+<li>These can all be used within summarise()</li>
+<li><em>Center</em>
+<ul>
+<li>mean(): calculate average</li>
+<li>median(): calculate median</li>
+</ul></li>
+<li><em>Count</em>
+<ul>
+<li>n(): count number of rows</li>
+<li>n_distinct(): count number of unique rows</li>
+</ul></li>
+<li><em>Spread</em>
+<ul>
+<li>sd(): calculate standard deviation</li>
+<li>IQR(): calculate the interquartile range</li>
+<li>mad(): calculate the median absolute deviation</li>
+</ul></li>
+<li><em>Range</em>
+<ul>
+<li>min(): minimum value</li>
+<li>max(): maximum value</li>
+<li>quantile(): quantile</li>
+</ul></li>
+<li><em>Position</em>
+<ul>
+<li>first(): Extract the first element of a vector</li>
+<li>last(): Extract the last element of a vector</li>
+<li>nth(): Extract the nth element of a vector (specify position with number)</li>
+</ul></li>
+<li><em>Logical</em>
+<ul>
+<li>any(): Report whether any elements are TRUE</li>
+<li>all(): Report whether all elements are TRUE</li>
+</ul></li>
+<li>n() will count the number of rows (i.e., token numbers)</li>
+</ul>
+<pre class="r"><code># Count the number of rows per Species
+# And count the number of unique petal lengths per speaker
+iris %&gt;% 
+  mutate(across(c(Species, petals), factor)) %&gt;% 
+  group_by(Species)%&gt;% 
+  summarise(Count = n(),
+            Unique_petals = n_distinct(petals)) </code></pre>
+</div>
+<div id="activity-3-summary-statistics" class="section level3">
+<h3>Activity 3: Summary statistics</h3>
+<ul>
+<li>Calculate the average petal length (summarise) for each speciies (group by) and sort in descending order. Which group has the longest petal
+<ul>
+<li><code>iris %&gt;% group_by(,, ) %&gt;% summarise( = mean()) %&gt;% arrange(desc())</code></li>
+</ul></li>
+<li>Calculate the standard deviation of petal length for each Species
+<ul>
+<li><code>iris %&gt;% filter(age=="") %&gt;% group_by(,) %&gt;% summarise( = sd()) %&gt;% arrange(desc())</code></li>
+</ul></li>
+<li>If you have time, try and find your own summary statistics</li>
+</ul>
+</div>
+</div>
+<div id="combinging-multiple-data-sets-joining" class="section level2 tabset">
+<h2>Combinging multiple data sets: joining</h2>
+<ul>
+<li>The following joins add variables from one dataframe (x) to another dataframe (y) based on (specified) <em>matching observations</em> (values in columns) between the two dataframes</li>
+<li>Common situation: joining metadata information to linguistic information from separate spreadsheets
+<ul>
+<li>Metadata has fewer rows (one per speaker) than linguistic data (multiple rows per speaker)</li>
+</ul></li>
+<li>It is also fine to use <code>merge()</code> if you’re already comfortable with it
+<ul>
+<li><code>merge()</code> is capable to doing all of these joins, depending on what you specify for the arguments</li>
+</ul></li>
+<li>All join functions require you to specify the column(s) by which you want to join the two data frames
+<ul>
+<li>These columns must have the <strong>same name</strong></li>
+<li>The values in these columns must also <strong>match</strong> or the join will not work/be incomplete</li>
+</ul></li>
+</ul>
+<div id="left_join" class="section level3">
+<h3>left_join():</h3>
+<ul>
+<li>Returns all rows in x and all columns from x and y</li>
+<li>Rows in x with no match in y will have NA values in the new columns</li>
+</ul>
+<div class="figure">
+<img src="images/left_join.png" alt="" />
+<p class="caption">Source: <a href="https://statisticsglobe.com/r-dplyr-join-inner-left-right-full-semi-anti">Statistics Globe</a></p>
+</div>
+</div>
+<div id="right_join" class="section level3">
+<h3>right_join()</h3>
+<ul>
+<li>Returns all rows in y and all columns from x and y</li>
+<li>Rows in y with no match in x will have NA values in the new columns</li>
+</ul>
+<div class="figure">
+<img src="images/right_join.png" alt="" />
+<p class="caption">Source: <a href="https://statisticsglobe.com/r-dplyr-join-inner-left-right-full-semi-anti">Statistics Globe</a></p>
+</div>
+</div>
+<div id="inner_join" class="section level3">
+<h3>inner_join()</h3>
+<ul>
+<li>Returns all rows from x <em>only</em> where there are matching values in y</li>
+<li>Shared observations in both dataframes</li>
+<li>I like to use this join because it is easier to spot where rows have gone missing (usually because the ID value does not match)</li>
+<li><code>merge()</code> function by default performs inner join: it returns only the rows in which the left table have matching keys in the right table</li>
+</ul>
+<div class="figure">
+<img src="images/inner_join.png" alt="" />
+<p class="caption">Source: <a href="https://statisticsglobe.com/r-dplyr-join-inner-left-right-full-semi-anti">Statistics Globe</a></p>
+</div>
+</div>
+<div id="full_join" class="section level3">
+<h3>full_join()</h3>
+<ul>
+<li>Returns all rows in x <em>or</em> y</li>
+<li>All rows and columns from both x and y. NA where there are not matching values.</li>
+</ul>
+<div class="figure">
+<img src="images/full_join.png" alt="" />
+<p class="caption">Source: <a href="https://statisticsglobe.com/r-dplyr-join-inner-left-right-full-semi-anti">Statistics Globe</a></p>
+</div>
+</div>
+<div id="semi_join" class="section level3">
+<h3>semi_join()</h3>
+<ul>
+<li>Return all rows from x where there are matching values in y, keeping just columns from x</li>
+</ul>
+<div class="figure">
+<img src="images/semi_join.png" alt="" />
+<p class="caption">Source: <a href="https://statisticsglobe.com/r-dplyr-join-inner-left-right-full-semi-anti">Statistics Globe</a></p>
+</div>
+</div>
+<div id="anti_join" class="section level3">
+<h3>anti_join()</h3>
+<ul>
+<li>Includes all observations in x that do not have a match in y
+<ul>
+<li>Keeps just columns from x</li>
+<li>Can be helpful for identifying mismatched values (e.g., It will extract the filenames that are slightly different between dataframe x and dataframe y and therefore cannot be joined or merged)</li>
+</ul></li>
+</ul>
+<div class="figure">
+<img src="images/anti_join.png" alt="" />
+<p class="caption">Source: <a href="https://statisticsglobe.com/r-dplyr-join-inner-left-right-full-semi-anti">Statistics Globe</a></p>
+</div>
+</div>
+</div>
+<div id="integrate-with-ggplot" class="section level2 tabset">
+<h2>Integrate with ggplot</h2>
+<ul>
+<li>One of my favourite aspects of dplyr is that you can subset data directly into ggplot visualisations
+<ul>
+<li>Meaning you don’t have to be constantly creating new subsetted dataframes</li>
+</ul></li>
+</ul>
+<div id="average-midpoint" class="section level3">
+<h3>Average midpoint</h3>
+<ul>
+<li>Here I want to visualise the average petal length and sepal length for each Species</li>
+<li><code>group_by(Species)</code> to group by Species</li>
+<li><code>summarise(petal_length = mean(petal_length))</code> to calculate the average petal length values for each group</li>
+<li>Move into ggplot and switch to <code>+</code> instead of pipe</li>
+</ul>
+<pre class="r"><code>iris %&gt;% 
+  mutate(petal_length = as.numeric(petal_length)) %&gt;% 
+  group_by(Species) %&gt;% 
+  summarise(petal_length = mean(petal_length),
+            sepal_length = mean(sepal_length)) %&gt;% 
+  ggplot(aes(x = petal_length, y = sepal_length, color = Species)) +
+  geom_point() +
+  theme_bw()</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+</div>
+<div id="sepal-length" class="section level3">
+<h3>Sepal length</h3>
+<ul>
+<li>Boxplot of sepal length for all species except setosa</li>
+<li>Boxplots need all data points (not just averages), so <code>summarise()</code> is not necessary (but you could filter out a specific point of the vowel)</li>
+</ul>
+<pre class="r"><code>iris %&gt;% 
+  filter(Species != &quot;setosa&quot;) %&gt;%
+  ggplot(aes(x = Species, y = sepal_length)) +
+  geom_boxplot() +
+  theme_bw()</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+</div>
+<div id="activity-5" class="section level3">
+<h3>Activity 5</h3>
+<ul>
+<li>Try and make your own combination of dplyr functions and ggplot</li>
+</ul>
+</div>
+</div>
+<div id="sources-and-resources" class="section level2">
+<h2>Sources and resources</h2>
+<p><a href="https://dplyr.tidyverse.org/" class="uri">https://dplyr.tidyverse.org/</a><br />
+<a href="https://r4ds.had.co.nz/transform.html" class="uri">https://r4ds.had.co.nz/transform.html</a><br />
+<a href="https://bookdown.org/ansellbr/WEHI_tidyR_course_book/manipulating-data-with-dplyr.html" class="uri">https://bookdown.org/ansellbr/WEHI_tidyR_course_book/manipulating-data-with-dplyr.html</a><br />
+<a href="http://statseducation.com/Introduction-to-R/modules/tidy%20data/gather/" class="uri">http://statseducation.com/Introduction-to-R/modules/tidy%20data/gather/</a><br />
+<a href="https://rpubs.com/williamsurles/293454" class="uri">https://rpubs.com/williamsurles/293454</a>
+<a href="https://www.datasciencemadesimple.com/join-in-r-merge-in-r/#" class="uri">https://www.datasciencemadesimple.com/join-in-r-merge-in-r/#</a>:~:text=We%20can%20merge%20two%20data,database%20join%20operation%20in%20SQL.
+<a href="https://statisticsglobe.com/r-dplyr-join-inner-left-right-full-semi-anti" class="uri">https://statisticsglobe.com/r-dplyr-join-inner-left-right-full-semi-anti</a></p>
+</div>

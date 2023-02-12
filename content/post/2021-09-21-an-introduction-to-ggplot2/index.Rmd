@@ -7,6 +7,9 @@ categories: R
 tags:
 - visualisation
 - colour
+output:
+  blogdown::html_page:
+    toc: true
 ---
 ```{r setup, include=FALSE} 
 knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
@@ -62,8 +65,8 @@ library(tidyverse)
   + The name of your dataframe or object, in our case 'cars'  
 - The code below will create an empty base layer
   
-```{r,eval=TRUE}
-ggplot(data=iris)
+```{r,eval = TRUE}
+ggplot(data = iris)
 
 ```
 
@@ -75,7 +78,7 @@ ggplot(data=iris)
 - The code below will create a graph with a labeled x and y axis that is otherwise empty. In the next section, we will turn it into a scatter plot
 
 ```{r, eval=TRUE}
-ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length))
+ggplot(data = iris, aes(x = Sepal.Length, y = Petal.Length))
 ```
 \foldend
 
@@ -89,7 +92,7 @@ ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length))
 - And voila! 
 
 ```{r,eval=TRUE}
-ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length))+
+ggplot(data = iris, aes(x = Sepal.Length, y = Petal.Length)) +
   geom_point()
 ```
   
@@ -102,7 +105,7 @@ ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length))+
   + a **continuous** variable on the **y axis**
 
 ```{r}
-ggplot(data=iris, aes(x=Species,y=Petal.Length))+ 
+ggplot(data = iris, aes(x = Species, y = Petal.Length)) + 
   geom_boxplot()
 ```
 
@@ -115,7 +118,7 @@ ggplot(data=iris, aes(x=Species,y=Petal.Length))+
   + Y axis tells you the distribution of this variables
   
 ```{r}
-ggplot(data=iris, aes(x=Petal.Length))+
+ggplot(data = iris, aes(x = Petal.Length)) +
   geom_density()
 ```
 
@@ -155,7 +158,8 @@ ggplot(data=iris, aes(x=Petal.Length))+
 - The same principle applies to shape and linetype 
 
 ```{r,}
-ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length, color=Species))+
+ggplot(data = iris, aes(x = Sepal.Length, y = Petal.Length, 
+                        color = Species)) +
   geom_point()
 ```
 
@@ -164,27 +168,28 @@ ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length, color=Species))+
   + change the colour inside the lines with `fill=column_d`
   
 ```{r, }
-ggplot(data=iris, aes(x=Sepal.Length,color=Species))+
+ggplot(data = iris, aes(x = Sepal.Length, color = Species))+
   geom_density()
 ```
 
 ```{r, }
-ggplot(data=iris, aes(x=Sepal.Length,fill=Species))+
+ggplot(data = iris, aes(x = Sepal.Length, fill = Species)) +
   geom_density()
 ```
 ### Labels and Titles
 
 - The `+labs()` function lets you change the plot title, caption, x and y axes and the legend labels
-  + `labs(title="Plot Title",caption="Plot Caption",x="column_a",y="column_b", color="column_c",fill="column_d")`
+  + `labs(title = "Plot Title", caption = "Plot Caption", x = "column_a", y = "column_b", color = "column_c", fill = "column_d")`
 - To change the legend labels, you specify the mapping attribute (color or fill), then the column being mapped to that attribute
 
 ```{r,}
-ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length,color=Species))+
-  geom_point()+
-  labs(title="Sepal Length and Petal Length",
-      caption="Data from R", 
-      x="Sepal Length",y="Petal Length",
-      color="Species")
+ggplot(data = iris, aes(x = Sepal.Length, y = Petal.Length, 
+                        color = Species)) +
+  geom_point() +
+  labs(title = "Sepal Length and Petal Length",
+      caption = "Data from R", 
+      x = "Sepal Length", y = "Petal Length",
+      color = "Species")
 ```
 
 ### Themes 
@@ -195,12 +200,13 @@ ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length,color=Species))+
   + `+theme_bw()`, `+theme_light()`, `+theme_dark()`, `+theme_classic()`
 
 ```{r,}
-ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length,color=Species))+
-  geom_point()+
-  labs(title="Sepal Length and Petal Length",
-      caption="Data from R", 
-      x="Sepal Length",y="Petal Length",
-      color="Species")+
+ggplot(data = iris, aes(x = Sepal.Length, y = Petal.Length,
+                        color = Species)) +
+  geom_point() +
+  labs(title = "Sepal Length and Petal Length",
+      caption = "Data from R", 
+      x = "Sepal Length", y = "Petal Length",
+      color = "Species")+
   theme_bw()
 ```
 
@@ -217,14 +223,14 @@ ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length,color=Species))+
 
   
 ```{r}
-ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length,color=Species))+
-  geom_point()+
-  labs(title="Sepal Length and Petal Length",
-      caption="Data from R", 
-      x="Sepal Length",y="Petal Length",
-      color="Species")+
-  theme_bw()+
-  theme(legend.position="left")
+ggplot(data = iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+  geom_point() +
+  labs(title = "Sepal Length and Petal Length",
+      caption = "Data from R", 
+      x = "Sepal Length",y = "Petal Length",
+      color = "Species") +
+  theme_bw() +
+  theme(legend.position = "left")
 
 ```
 
@@ -232,25 +238,25 @@ ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length,color=Species))+
 ### 1: Colour
 - Customise a scatter plot, box plot and density plot with colour
 - Scatter plot
-  + `ggplot(data=data_frame,aes(x=column_1,y=column_2,color=column_3))+geom_point()`
+  + `ggplot(data = data_frame, aes(x = column_1, y = column_2, color = column_3)) + geom_point()`
 - Box plot
-  + `ggplot(data=ban,aes(x=age,y=F1_lob,color=gender,fill=community))+ geom_boxplot()`
+  + `ggplot(data = ban, aes(x = age, y = F1_lob, color = gender, fill = community)) + geom_boxplot()`
 - Density plot
-  + `ggplot(data=ban,aes(x=F1_lob,color=age,fill=community))+geom_density()`
+  + `ggplot(data = ban, aes(x = F1_lob, color = age, fill = community)) + geom_density()`
   
 ### 2: Customising with colour
 - Customise a scatter plot, box plot and density plot with colour
 - Scatter plot
-  + `ggplot(data=data_frame,aes(x=column_1,y=column_2,color=column_3))+geom_point()`
+  + `ggplot(data = data_frame, aes(x = column_1, y = column_2, color = column_3)) + geom_point()`
 - Box plot
-  + `ggplot(data=ban,aes(x=age,y=F1_lob,color=gender,fill=community))+ geom_boxplot()`
+  + `ggplot(data = ban, aes(x = age, y = F1_lob, color = gender, fill = community)) + geom_boxplot()`
 - Density plot
-  + `ggplot(data=ban,aes(x=F1_lob,color=age,fill=community))+geom_density()`
+  + `ggplot(data = ban, aes(x = F1_lob, color = age, fill = community)) + geom_density()`
 
 ### 3: Labels and Titles 
 - Give your plot from Task 4 a new title!
 - Try and change the labels of the x and y axes too
-  + Previous plot code +`labs(title="Plot Title",caption="Plot Caption",x="column_a",y="column_b", color="column_c",fill="column_d")`
+  + Previous plot code +`labs(title = "Plot Title", caption = "Plot Caption", x = "column_a", y = "column_b", color = "column_c", fill = "column_d")`
   
 ### 4: Theme
 - Change the theme for the plot from Task 5
@@ -267,35 +273,35 @@ ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length,color=Species))+
 ### facet_wrap()
 - You can break down your graph further by categorical variables with `facet_wrap()`, which automatically wraps graphs in a rectangle layout
 - `facet_wrap(~)` can take one or two arguments
-  + for one argument, it goes to the right of the ~ `facet_wrap(~column_e)`
-  + for two arguments, one goes on either side of the ~ `facet_wrap(column_e~column_f)`
+  + for one argument, it goes to the right of the ~ `facet_wrap(~ column_e)`
+  + for two arguments, one goes on either side of the ~ `facet_wrap(column_e ~ column_f)`
 
 ```{r,eval=TRUE, echo=TRUE}
-ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length))+
-  geom_point()+
-  labs(title="Sepal Length and Petal Length",
-      caption="Data from R", 
-      x="Sepal Length",y="Petal Length",
-      color="Species")+
-  theme_bw()+
-  facet_wrap(~Species)
+ggplot(data = iris, aes(x = Sepal.Length, y = Petal.Length)) +
+  geom_point() +
+  labs(title = "Sepal Length and Petal Length",
+      caption = "Data from R", 
+      x = "Sepal Length", y = "Petal Length",
+      color = "Species") +
+  theme_bw() +
+  facet_wrap(~ Species)
 ```
 
 ### facet_grid() 
 - `facet_grid()` can facet into columns or rows, or both
-  + `facet_grid(cols=vars(column_e))` will facet into columns based on this variable
-  + `facet_grid(rows=vars(column_f))` will facet into rows based on this variable
-  + `facet_grid(cols=vars(column_e), rows=vars(column_f))` will facet into rows and columns based on the two variables
+  + `facet_grid(cols = vars(column_e))` will facet into columns based on this variable
+  + `facet_grid(rows = vars(column_f))` will facet into rows based on this variable
+  + `facet_grid(cols = vars(column_e), rows = vars(column_f))` will facet into rows and columns based on the two variables
 
 ```{r,eval=TRUE, echo=TRUE}
-ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length))+
-  geom_point()+
-  labs(title="Sepal Length and Petal Length",
-      caption="Data from R", 
-      x="Sepal Length",y="Petal Length",
-      color="Species")+
-  theme_bw()+
-  facet_grid(cols=vars(Species))
+ggplot(data = iris, aes(x = Sepal.Length, y = Petal.Length))+
+  geom_point() +
+  labs(title = "Sepal Length and Petal Length",
+      caption = "Data from R", 
+      x = "Sepal Length", y = "Petal Length",
+      color = "Species") +
+  theme_bw() +
+  facet_grid(cols = vars(Species))
 ```
 
 ## Changing the colours {.tabset}
@@ -315,16 +321,16 @@ ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length))+
   + When using hex codes, remember to have the # in front of the code
 
 ```{r, eval=TRUE}
-ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length,color=Species))+
-  geom_point()+
-  scale_color_manual(values=c("blue2","chartreuse2","blueviolet"))
+ggplot(data = iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+  geom_point() +
+  scale_color_manual(values = c("blue2", "chartreuse2", "blueviolet"))
 ```
   
 - Where you have both fill and colour, the same applies  
 - To change the fill colour manually add:
-  + `+scale_fill_manual(values=c())` 
+  + `+scale_fill_manual(values = c())` 
 - To change the line colour manually add:
-  + `+scale_color_manual(values=c())`
+  + `+scale_color_manual(values = c())`
   
 ### Pre-existing palettes 
 
@@ -332,15 +338,15 @@ ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length,color=Species))+
 - There are a lot of pre-existing palettes that you can add to your graph  
 - Different packages have different palettes, I use RColorBrewer   
 - We replace the 'manual' in the previous code with `brewer`:  
-  + `scale_color_brewer(palette="")`    
-  + `scale_fill_brewer(palette="")`  
+  + `scale_color_brewer(palette = "")`    
+  + `scale_fill_brewer(palette = "")`  
 - You can find palette names in the link in the script  
 
 ```{r, eval=TRUE}
-ggplot(data=iris, aes(x=Sepal.Length,y=Petal.Length,color=Species))+
-  geom_point()+
-  scale_color_brewer(palette="RdGy", 
-          name="Iris Species")
+ggplot(data = iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+  geom_point() +
+  scale_color_brewer(palette = "RdGy", 
+          name = "Iris Species")
 ```
 
 ## Mini-tasks: Make it cute and bring it together
