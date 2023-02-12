@@ -1,5 +1,5 @@
 ---
-title: So you want to make a density plot (of vowels)
+title: Making a density plot (of vowels)
 author: Elena Sheard
 date: '2021-07-21'
 slug: so-you-want-to-make-a-density-plot

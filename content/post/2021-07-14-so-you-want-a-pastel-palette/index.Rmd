@@ -1,5 +1,5 @@
 ---
-title: So You Want a Pastel Palette
+title: Creating a Pastel colour Palette
 author: Elena Sheard
 date: '2021-07-14'
 slug: so-you-want-a-pastel-palette

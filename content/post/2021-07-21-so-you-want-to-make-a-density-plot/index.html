@@ -1,5 +1,5 @@
 ---
-title: So you want to make a density plot (of vowels)
+title: Making a density plot (of vowels)
 author: Elena Sheard
 date: '2021-07-21'
 slug: so-you-want-to-make-a-density-plot
@@ -17,14 +17,14 @@ tags:
 <p>The aim of this post is to give a very basic framework for making vowel density charts. I recently learnt how to make them, and I think they’re a really neat way of showcasing vowel data, particularly their spread in the vowel space.</p>
 <p>Let’s load in some word list data that I recorded in Praat and force-aligned in <a href="http://darla.dartmouth.edu/">DARLA</a>.The most important thing to have in your data frame for this kind of plot is both F1 and F2 measurements, ideally normalised. I normalised this data using the Lobanov method on the <a href="http://lingtools.uoregon.edu/norm/norm1_help.php">NORM website</a>. We’ll be using ggplot, so I’ve also loaded Tidyverse.</p>
 <pre class="r"><code>library(&quot;tidyverse&quot;)</code></pre>
-<pre><code>## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --</code></pre>
-<pre><code>## v ggplot2 3.3.4     v purrr   0.3.4
-## v tibble  3.1.1     v dplyr   1.0.6
-## v tidyr   1.1.3     v stringr 1.4.0
-## v readr   1.4.0     v forcats 0.5.1</code></pre>
-<pre><code>## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
+## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
+## ✔ tidyr   1.2.1      ✔ stringr 1.5.0 
+## ✔ readr   2.1.3      ✔ forcats 0.5.2 
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>vowels &lt;- read.csv(&quot;C:/Users/Aussuie/Dropbox/ANU/Website/Website/Data_normalised.csv&quot;)
 head(vowels)</code></pre>
 <pre><code>##   Speaker Vowel Context F150_lob F250_lob F180_lob F280_lob

@@ -1,5 +1,5 @@
 ---
-title: So You Want a Pastel Palette
+title: Creating a Pastel colour Palette
 author: Elena Sheard
 date: '2021-07-14'
 slug: so-you-want-a-pastel-palette
@@ -20,9 +20,8 @@ tags:
 <div id="pre-existing-pastel-palettes" class="section level1">
 <h1>Pre-existing pastel palettes</h1>
 <p>If we make a basic box plot in R using the iris data, we end up with a plot like this:</p>
-<pre class="r"><code>library(ggplot2)</code></pre>
-<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.0.5</code></pre>
-<pre class="r"><code>ggplot(iris,aes(x=Species,y=Petal.Length))+
+<pre class="r"><code>library(ggplot2)
+ggplot(iris,aes(x=Species,y=Petal.Length))+
   geom_boxplot()</code></pre>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/cars-1.png" width="672" /></p>
 <p>We might want to distinguish between the the three species a bit more easily, so we can add in colour using fill.</p>
