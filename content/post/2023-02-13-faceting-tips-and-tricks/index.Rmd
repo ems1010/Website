@@ -145,7 +145,7 @@ mtcars %>%
   geom_point(aes(x = mpg, y = wt, color = vs)) +
   theme_bw()+
   facet_wrap(~ cyl, scales = 'free_x') 
-
+ 
 mtcars %>% 
   mutate(across(c(vs, cyl, carb), factor)) %>% 
   ggplot()+
