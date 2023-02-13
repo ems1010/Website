@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Publications  
-* Sheard, Elena (2022). Longevity of an ethnolectal marker in Australian English: Word-final (er) and the Greek-Australian community. In Rosey Billington (Ed.), [Proceedings of the Eighteenth Australasian International Conference on Speech Science and Technology](https://sst2022.files.wordpress.com/2022/12/sst2022_proceedings.pdf) (pp. 51-55). Australasian Speech Science and Technology Association.
+* Sheard, Elena (2022). Longevity of an ethnolectal marker in Australian English: Word-final (er) and the Greek-Australian community. In Rosey Billington (Ed.), Proceedings of the Eighteenth Australasian International Conference on Speech Science and Technology (pp. 51-55). Australasian Speech Science and Technology Association. Download article [here](/Sheard_2022.pdf)
 
 * Sheard, Elena. (2019). “Variation, Language Ideologies and Stereotypes: Orientations towards like and youse in Western and Northern Sydney. *Australian Journal of Linguistics* 39.4. 485-510 <https://doi.org/10.1080/07268602.2019.1641066>
 
