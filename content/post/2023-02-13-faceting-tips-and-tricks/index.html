@@ -1,0 +1,152 @@
+---
+title: ggplot2 tips and tricks
+author: ''
+date: '2023-02-13'
+slug: ggplot-tips-and-tricks
+categories: R
+tags: visualisation
+output:
+  blogdown::html_page:
+    toc: true
+---
+
+
+<div id="TOC">
+<ul>
+<li><a href="#using-reposition_legend-with-facets" id="toc-using-reposition_legend-with-facets">Using reposition_legend() with facets</a></li>
+<li><a href="#one-shared-legend-to-multiple-figures" id="toc-one-shared-legend-to-multiple-figures">One shared legend to multiple figures</a></li>
+<li><a href="#changing-the-scales-for-facet_wrap" id="toc-changing-the-scales-for-facet_wrap">Changing the scales for facet_wrap()</a></li>
+</ul>
+</div>
+
+<p>This is going to be a running list of useful things I’ve learnt to do in ggplot. They will use a few different packages in addition to the tidyverse, so if you don’t have the following already in your library you can install them using <code>install.packages()</code></p>
+<pre class="r"><code>library(tidyverse)
+library(ggpattern)
+library(magick)
+library(lemon)
+library(cowplot)</code></pre>
+<div id="using-reposition_legend-with-facets" class="section level1">
+<h1>Using reposition_legend() with facets</h1>
+<ul>
+<li><code>reposition_legend()</code> is a function from the <a href="https://www.rdocumentation.org/packages/lemon/versions/0.4.6/topics/reposition_legend">lemon</a> package that lets you
+customise the position of a legend with more specificity than the ggplot package</li>
+<li>Fundamentally, it works by specifying a plot and a legend as the arguments,
+along with where you want the legend argument to be placed on the plot</li>
+<li>If you do not specify a separate legend, the function assumes that it is the
+legend from the specified plot</li>
+<li>It is especially useful for moving the legend in a plot that uses faceting. The arguments are:
+<ul>
+<li><code>reposition_legend(plot +   facet_wrap(~ facet),   'legend_position_in_panel',   panel = 'panel_where_legend_goes'</code></li>
+<li>The argument for <code>panel</code> takes the form of ‘panel-column_number-row_number’</li>
+</ul></li>
+<li>In example below, I’ve made a scatterplot using the mtcars data set and assigned it to an object</li>
+<li>I have then created a facet by the <em>cyl</em> variable, and specified that I want the legend to be placed in the bottom right of the panel in the third column of the first row</li>
+</ul>
+<pre class="r"><code>plot &lt;- mtcars %&gt;% 
+  mutate(across(c(vs, cyl, carb), factor)) %&gt;% 
+  ggplot()+
+  geom_point(aes(x = mpg, y = wt, color = vs)) +
+  theme_bw()
+
+reposition_legend(plot + facet_wrap(~ cyl),
+                  &#39;bottom right&#39;, 
+                  panel = &#39;panel-3-1&#39;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<ul>
+<li>An alternative is that I could create a two row and two column grid in the facet by
+specifying two rows instead of one, and then place the legend in the middle of the
+empty panel in the right corner</li>
+</ul>
+<pre class="r"><code>plot &lt;- mtcars %&gt;% 
+  mutate(across(c(vs, cyl, carb), factor)) %&gt;% 
+  ggplot()+
+  geom_point(aes(x = mpg, y = wt, color = vs)) +
+  theme_bw()
+
+reposition_legend(plot + facet_wrap(~ cyl, nrow = 2),
+                  &#39;center&#39;, 
+                  panel = &#39;panel-2-2&#39;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="one-shared-legend-to-multiple-figures" class="section level1">
+<h1>One shared legend to multiple figures</h1>
+<ul>
+<li>This is an issue I’ve encountered primarily with figures generated from sjplot, because they visualise single model outputs (meaning they can’t be faceted).</li>
+<li>Below is an absolute hack of a solution but it’s the best I’ve got so far for visualising multiple outputs that otherwise have the same legends, but please email me if you have any suggestions!</li>
+<li>I have assigned each plot to an object
+<ul>
+<li>Two of the three do not have legends included<br />
+</li>
+<li>For the first one I have included the legend in the plot, and then assigned the legend only to its own object, and the plot without the legend to a separate object<br />
+</li>
+<li>Then, using <code>plot_grid()</code>, place the three legend-less plots next to each other, followed by the legend extracted from plot 1<br />
+</li>
+<li>The relative width argument keeps the three plots the same width, with the legend column half the width of the others<br />
+</li>
+<li>Keep in mind that each of the three plots has a different scale, which makes it look different from the facet wrap</li>
+</ul></li>
+</ul>
+<pre class="r"><code>plot1 &lt;- mtcars %&gt;% 
+  filter(cyl == &quot;4&quot;) %&gt;% 
+  mutate(across(c(vs, cyl, carb), factor)) %&gt;% 
+  ggplot()+
+  geom_point(aes(x = mpg, y = wt, color = vs)) +
+  theme_bw() #+ 
+  #theme(legend.position = &quot;none&quot;)
+
+plot2 &lt;- mtcars %&gt;% 
+  filter(cyl == &quot;6&quot;) %&gt;% 
+  mutate(across(c(vs, cyl, carb), factor)) %&gt;% 
+  ggplot()+
+  geom_point(aes(x = mpg, y = wt, color = vs)) +
+  theme_bw() +
+  theme(legend.position = &quot;none&quot;)
+
+plot3 &lt;- mtcars %&gt;% 
+  filter(cyl == &quot;8&quot;) %&gt;% 
+  mutate(across(c(vs, cyl, carb), factor)) %&gt;% 
+  ggplot()+
+  geom_point(aes(x = mpg, y = wt, color = vs)) +
+  theme_bw() +
+  theme(legend.position = &quot;none&quot;)
+
+#combining plots
+no_legend &lt;- plot1 + theme(legend.position = &quot;none&quot;)
+legend &lt;- get_legend(plot1)
+
+#plot_grid(test_combined,legend_com,legend_ind)
+plot_grid(no_legend,plot2,plot3,legend,nrow=1,rel_widths = c(1, 1,1,0.5))</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="changing-the-scales-for-facet_wrap" class="section level1">
+<h1>Changing the scales for facet_wrap()</h1>
+<p>The book <a href="https://ggplot2-book.org/facet.html">ggplot2: Elegant graphics for data analysis</a> explains this better than I can, but both facet_wrap() and facet_grid() have the argument ‘scales =’ which allows you to specify if you want the scales of the x and y axes to be the same (‘fixed’, the default) or change for each facet (‘free’). You can also specify only the x or y axis to be free, and the other fixed (‘free_x’ and ‘free_y’). Examples for each are provided below.</p>
+<pre class="r"><code>mtcars %&gt;% 
+  mutate(across(c(vs, cyl, carb), factor)) %&gt;% 
+  ggplot()+
+  geom_point(aes(x = mpg, y = wt, color = vs)) +
+  theme_bw()+
+  facet_wrap(~ cyl) #scales = &#39;fixed&#39;</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="r"><code>mtcars %&gt;% 
+  mutate(across(c(vs, cyl, carb), factor)) %&gt;% 
+  ggplot()+
+  geom_point(aes(x = mpg, y = wt, color = vs)) +
+  theme_bw()+
+  facet_wrap(~ cyl, scales = &#39;free&#39;) </code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
+<pre class="r"><code>mtcars %&gt;% 
+  mutate(across(c(vs, cyl, carb), factor)) %&gt;% 
+  ggplot()+
+  geom_point(aes(x = mpg, y = wt, color = vs)) +
+  theme_bw()+
+  facet_wrap(~ cyl, scales = &#39;free_x&#39;) </code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-3.png" width="672" /></p>
+<pre class="r"><code>mtcars %&gt;% 
+  mutate(across(c(vs, cyl, carb), factor)) %&gt;% 
+  ggplot()+
+  geom_point(aes(x = mpg, y = wt, color = vs)) +
+  theme_bw()+
+  facet_wrap(~ cyl, scales = &#39;free_y&#39;) </code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-4.png" width="672" /></p>
+</div>
