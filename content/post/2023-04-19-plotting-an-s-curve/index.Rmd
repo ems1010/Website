@@ -1,0 +1,59 @@
+---
+title: Plotting an s-curve
+author: Elena Sheard
+date: '2023-04-19'
+slug: plotting-an-s-curve
+categories: R
+tags: visualisation
+output:
+  blogdown::html_page:
+    toc: true
+---
+
+Recently I needed to plot an s-curve and it took me an ungodly amount of time to
+figure out, because I don't really understand mathematical functions.  
+
+With substantial help from stack overflow I put together this code and adjusted
+ it for the sociolinguistics context!
+
+```{r, warning=FALSE}
+library(tidyverse)
+library(scales)
+```
+## Basic s-curve
+
+The basic s-curve maps a particular function with `stat_function()` added to a 
+ggplot object. I can't explain much more about the function aside from the larger
+the numbers in `x` the steeper the line and the more plateau you get at either end of the curve. 
+
+```{r}
+#s-curve
+p <- ggplot(data = data.frame(x = c(-8, 8)), aes(x))
+
+p +
+  stat_function(fun = function(x) exp(x)/(1 + exp(x)), n = 100) +
+  theme_bw(base_size = 14)
+
+```
+
+## Adding relevant labels for language change
+
+To relate the curve to language change I used `labs()` to change the x and y axis 
+labels to "Year of Birth" (corresponding to older speakers born longer ago and younger speakers born more recently) and "Rate of use of innovative variant". I also changed the
+labels of the breaks on the x axis to every 25 years starting from 1900 with
+`scale_x_continuous()`. Finally, I just changed the y axis to % using `scale_y_continuous()` and the `scales` package. 
+
+```{r}
+p <- ggplot(data = data.frame(x = c(-8, 8)), aes(x))
+
+p +
+  stat_function(fun = function(x) exp(x)/(1 + exp(x)), n = 100) +
+  labs(x = "Year of Birth",
+       y = "Rate of use of innovative variant") +
+  scale_x_continuous(breaks = c(-8, -4, 0, 4, 8),
+                     labels = c('1900', '1925', '1950',
+                                '1975', '2000')) + 
+  scale_y_continuous(labels = percent) +
+  theme_bw(base_size = 14)
+```
+

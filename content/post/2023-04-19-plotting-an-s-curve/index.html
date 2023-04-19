@@ -1,0 +1,76 @@
+---
+title: Plotting an s-curve
+author: Elena Sheard
+date: '2023-04-19'
+slug: plotting-an-s-curve
+categories: R
+tags: visualisation
+output:
+  blogdown::html_page:
+    toc: true
+---
+
+
+<div id="TOC">
+<ul>
+<li><a href="#basic-s-curve" id="toc-basic-s-curve">Basic s-curve</a></li>
+<li><a href="#adding-relevant-labels-for-language-change" id="toc-adding-relevant-labels-for-language-change">Adding relevant labels for language change</a></li>
+</ul>
+</div>
+
+<p>Recently I needed to plot an s-curve and it took me an ungodly amount of time to
+figure out, because I don’t really understand mathematical functions.</p>
+<p>With substantial help from stack overflow I put together this code and adjusted
+it for the sociolinguistics context!</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.4.1      ✔ purrr   1.0.1 
+## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
+## ✔ tidyr   1.3.0      ✔ stringr 1.5.0 
+## ✔ readr   2.1.3      ✔ forcats 1.0.0 
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(scales)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;scales&#39;
+## 
+## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     discard
+## 
+## The following object is masked from &#39;package:readr&#39;:
+## 
+##     col_factor</code></pre>
+<div id="basic-s-curve" class="section level2">
+<h2>Basic s-curve</h2>
+<p>The basic s-curve maps a particular function with <code>stat_function()</code> added to a
+ggplot object. I can’t explain much more about the function aside from the larger
+the numbers in <code>x</code> the steeper the line and the more plateau you get at either end of the curve.</p>
+<pre class="r"><code>#s-curve
+p &lt;- ggplot(data = data.frame(x = c(-8, 8)), aes(x))
+
+p +
+  stat_function(fun = function(x) exp(x)/(1 + exp(x)), n = 100) +
+  theme_bw(base_size = 14)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="adding-relevant-labels-for-language-change" class="section level2">
+<h2>Adding relevant labels for language change</h2>
+<p>To relate the curve to language change I used <code>labs()</code> to change the x and y axis
+labels to “Year of Birth” (corresponding to older speakers born longer ago and younger speakers born more recently) and “Rate of use of innovative variant”. I also changed the
+labels of the breaks on the x axis to every 25 years starting from 1900 with
+<code>scale_x_continuous()</code>. Finally, I just changed the y axis to % using <code>scale_y_continuous()</code> and the <code>scales</code> package.</p>
+<pre class="r"><code>p &lt;- ggplot(data = data.frame(x = c(-8, 8)), aes(x))
+
+p +
+  stat_function(fun = function(x) exp(x)/(1 + exp(x)), n = 100) +
+  labs(x = &quot;Year of Birth&quot;,
+       y = &quot;Rate of use of innovative variant&quot;) +
+  scale_x_continuous(breaks = c(-8, -4, 0, 4, 8),
+                     labels = c(&#39;1900&#39;, &#39;1925&#39;, &#39;1950&#39;,
+                                &#39;1975&#39;, &#39;2000&#39;)) + 
+  scale_y_continuous(labels = percent) +
+  theme_bw(base_size = 14)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
