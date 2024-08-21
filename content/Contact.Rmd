@@ -5,6 +5,6 @@ date: "08/12/2021"
 output: html_document
 ---
 
-You can contact Elena via email at elena.sheard@anu.edu.au
+You can contact Elena via email at elena.sheard@canterbury.ac.nz
 
 You can also follow her on [Twitter](https://twitter.com/sociolinguo), [Tumblr](https://sociolinguo.tumblr.com) and [Github](https://github.com/ems1010)
